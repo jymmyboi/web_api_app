@@ -6,8 +6,8 @@ class ConnectServerPage extends StatelessWidget {
   ConnectServerPage({super.key});
   final TextEditingController serverController = TextEditingController();
   final TextEditingController accessKeyController = TextEditingController();
-  DatabaseService databaseService = DatabaseService();
-  Logger logger = Logger();
+  final DatabaseService databaseService = DatabaseService();
+  final Logger logger = Logger();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
