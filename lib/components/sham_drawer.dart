@@ -12,14 +12,14 @@ class ShamDrawer extends StatelessWidget {
         children: [
           Center(
             child: DrawerHeader(
-              child: Text("SHAM"),
+              child: Text("SCAM"),
             ),
           ),
           ListTile(
-            title: Text("Customers"),
+            title: Text("Opportunities"),
           ),
           ListTile(
-            title: Text("Items"),
+            title: Text("Campaigns"),
           ),
         ],
       ),

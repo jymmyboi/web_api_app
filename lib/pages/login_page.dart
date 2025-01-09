@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:sham_app/pages/connect_server_page.dart';
 import 'package:sham_app/pages/home_page.dart';
-import 'package:sham_app/services/authentication_service.dart';
+import 'package:sham_app/services/database_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -16,7 +16,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   Logger logger = Logger();
 
-  final authenticationService = AuthenticationService();
+  final databaseService = DatabaseService();
 
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -93,8 +93,8 @@ class _LoginPageState extends State<LoginPage> {
                     return;
                   }
                   logger.i((selectedServer, username, password));
-                  final String? bearer = await authenticationService
-                      .getBearerToken(selectedServer!, username, password);
+                  final String? bearer = await databaseService.getBearerToken(
+                      selectedServer!, username, password);
                   if (bearer != null) {
                     Navigator.pushReplacement(
                         context,

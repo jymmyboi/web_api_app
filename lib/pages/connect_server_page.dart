@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:sham_app/services/authentication_service.dart';
+import 'package:sham_app/services/database_service.dart';
 import 'package:logger/logger.dart';
 
 class ConnectServerPage extends StatelessWidget {
   ConnectServerPage({super.key});
   final TextEditingController serverController = TextEditingController();
   final TextEditingController accessKeyController = TextEditingController();
-  AuthenticationService authenticationService = AuthenticationService();
+  DatabaseService databaseService = DatabaseService();
   Logger logger = Logger();
   @override
   Widget build(BuildContext context) {
@@ -44,8 +44,8 @@ class ConnectServerPage extends StatelessWidget {
                       ? ''
                       : accessKeyController.text;
                   try {
-                    var response = await authenticationService.getDatabases(
-                        server, accessKey);
+                    var response =
+                        await databaseService.getDatabases(server, accessKey);
                     logger.i(response);
                     Navigator.of(context).pop(response);
                   } catch (e) {

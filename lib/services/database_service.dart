@@ -3,14 +3,13 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 
-class AuthenticationService {
-  static final AuthenticationService _instance =
-      AuthenticationService._internal();
+class DatabaseService {
+  static final DatabaseService _instance = DatabaseService._internal();
 
-  factory AuthenticationService() {
+  factory DatabaseService() {
     return _instance;
   }
-  AuthenticationService._internal();
+  DatabaseService._internal();
   Logger logger = Logger();
 
   String? baseUrl;
