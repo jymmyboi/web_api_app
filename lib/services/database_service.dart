@@ -16,7 +16,7 @@ class DatabaseService {
   String? accessKey;
 
   void setBaseUrl(String newBaseUrl, [String? newAccessKey]) {
-    baseUrl = "https://$newBaseUrl";
+    baseUrl = "https://$newBaseUrl/API";
     if (newAccessKey != null) {
       accessKey = newAccessKey;
     }
@@ -59,7 +59,7 @@ class DatabaseService {
 
     try {
       http.Request request =
-          http.Request('POST', Uri.parse("${baseUrl!}/API/Bearer"));
+          http.Request('POST', Uri.parse("${baseUrl!}/Bearer"));
       request.bodyFields = <String, String>{
         'grant_type': 'password',
         'database': database,
@@ -79,6 +79,20 @@ class DatabaseService {
       }
     } catch (e) {
       logger.e('Error fetching bearer token: $e ');
+      return null;
+    }
+  }
+
+  Future<String?> getMyLeads() async {
+    http.Request request =
+        http.Request('GET', Uri.parse('${baseUrl!}/MyLeadInfoList'));
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      logger.d(await response.stream.bytesToString());
+      return await response.stream.bytesToString();
+    } else {
       return null;
     }
   }

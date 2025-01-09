@@ -94,10 +94,8 @@ class _LoginPageState extends State<LoginPage> {
                   final String? bearer = await databaseService.getBearerToken(
                       selectedServer!, username, password);
                   if (bearer != null) {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const HomePage()));
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => HomePage()));
                   } else {
                     logger.e("Failed to authenticate");
                   }
