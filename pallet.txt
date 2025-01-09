@@ -1,0 +1,5 @@
+Main Colour: #049f93
+Secondary: #2088b5
+Accent: #d5ac45
+Third: #599dc8
+Text: #161710
