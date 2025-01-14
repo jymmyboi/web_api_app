@@ -1,12 +1,10 @@
-import 'dart:ffi';
-
 class Lead {
   final String code;
   final String description;
   final String name;
   final String createdOn;
-  final Float probability;
-  final Float foreignEstimatedValue;
+  final double probability;
+  final double foreignEstimatedValue;
   final String campaign;
   final String opportunityStage;
   final String salesSource;
@@ -45,8 +43,8 @@ class Lead {
         description = json['Description'] as String,
         name = json['Name'] as String,
         createdOn = json['CreatedOn'] as String,
-        probability = json['Probability'] as Float,
-        foreignEstimatedValue = json['ForeignEstimatedValue'] as Float,
+        probability = json['Probability'] as double,
+        foreignEstimatedValue = json['ForeignEstimatedValue'] as double,
         campaign = json['Campaign'] as String,
         opportunityStage = json['OpportunityStage'] as String,
         salesSource = json['SalesSource'] as String,
