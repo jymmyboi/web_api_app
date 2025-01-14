@@ -15,11 +15,21 @@ class DatabaseService {
   String? baseUrl;
   String? accessKey;
 
+  String? accessToken;
+  String? tokenType;
+  int? tokenExpiry;
+  String? refreshToken;
+
   void setBaseUrl(String newBaseUrl, [String? newAccessKey]) {
     baseUrl = "https://$newBaseUrl/API";
     if (newAccessKey != null) {
       accessKey = newAccessKey;
     }
+  }
+
+  void setBearerToken(String bearerJson) {
+    final bearerToken = jsonDecode(bearerJson) as Map<String, dynamic>;
+    accessToken = bearerToken['access_token'];
   }
 
   Future<List<String>?> getDatabases(
@@ -71,7 +81,9 @@ class DatabaseService {
       http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {
-        return await response.stream.bytesToString();
+        String responseString = await response.stream.bytesToString();
+        setBearerToken(responseString);
+        return responseString;
       } else {
         logger.e(
             'Failed to get bearer token. Status code: ${response.statusCode} | ${response.reasonPhrase}');
@@ -85,7 +97,9 @@ class DatabaseService {
 
   Future<String?> getMyLeads() async {
     http.Request request =
-        http.Request('GET', Uri.parse('${baseUrl!}/MyLeadInfoList'));
+        http.Request('GET', Uri.parse('${baseUrl!}/CRM/MyLeadInfoList'));
+    logger.d(accessToken);
+    request.headers.addAll({'Authorization': 'Bearer $accessToken'});
 
     http.StreamedResponse response = await request.send();
 
@@ -93,6 +107,8 @@ class DatabaseService {
       logger.d(await response.stream.bytesToString());
       return await response.stream.bytesToString();
     } else {
+      logger.e(
+          "Failure to get leads ${response.statusCode} | ${response.reasonPhrase}");
       return null;
     }
   }
