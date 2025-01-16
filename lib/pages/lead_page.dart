@@ -40,12 +40,9 @@ class _LeadPageState extends State<LeadPage> {
 
     // Decode the JSON response
     final Map<String, dynamic> jsonData = json.decode(response);
-
+    logger.e(jsonData);
+    logger.i(jsonData['description']);
     // Ensure that required fields are not null or missing
-    if (jsonData['description'] == null || jsonData['description'] is! String) {
-      logger.e("Description is missing or invalid");
-      throw Exception("Invalid lead data");
-    }
 
     Lead lead = Lead.fromJson(jsonData);
     logger.i("LEAD RETURNED");
