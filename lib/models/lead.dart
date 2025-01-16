@@ -15,7 +15,7 @@ class Lead {
   final String salesRepresentative;
   final String industry;
   final String territory;
-  final String extendedProperties;
+  final List<dynamic> extendedProperties;
   final int id;
 
   Lead(
@@ -55,7 +55,7 @@ class Lead {
         salesRepresentative = json['SalesRepresentative'] as String,
         industry = json['Industry'] as String,
         territory = json['Territory'] as String,
-        extendedProperties = json['ExtendedProperties'] as String,
+        extendedProperties = json['ExtendedProperties'] as List<dynamic>,
         id = json['Id'] as int;
 
   Map<String, dynamic> toJson() => {

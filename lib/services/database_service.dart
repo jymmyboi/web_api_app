@@ -104,8 +104,9 @@ class DatabaseService {
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      logger.d(await response.stream.bytesToString());
-      return await response.stream.bytesToString();
+      String responseString = await response.stream.bytesToString();
+      logger.d(responseString);
+      return responseString;
     } else {
       logger.e(
           "Failure to get leads ${response.statusCode} | ${response.reasonPhrase}");
