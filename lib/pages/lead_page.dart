@@ -6,6 +6,7 @@ import 'package:sham_app/models/lead.dart';
 import 'package:sham_app/services/database_service.dart';
 
 import '../models/lead_list_entry.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LeadPage extends StatefulWidget {
   const LeadPage({
@@ -31,29 +32,34 @@ class _LeadPageState extends State<LeadPage> {
 
   Future<Lead> _fetchLead() async {
     final response = await _databaseService.getLead(widget._leadListEntry.id);
-
-    // Handle a null or empty response
     if (response == null || response.isEmpty) {
-      logger.e("Empty or null response");
       throw Exception("Failed to fetch lead");
     }
-
-    // Decode the JSON response
     final Map<String, dynamic> jsonData = json.decode(response);
-    logger.e(jsonData);
-    logger.i(jsonData['description']);
-    // Ensure that required fields are not null or missing
+    return Lead.fromJson(jsonData);
+  }
 
-    Lead lead = Lead.fromJson(jsonData);
-    logger.i("LEAD RETURNED");
-    return lead;
+  String createGoogleMapsSearch(
+      String streetName, String cityName, String stateName) {
+    String baseUrl = 'https://www.google.com/maps/search/?api=1&query=';
+    String fullString = "$streetName%2C$cityName%2C$stateName";
+    fullString = fullString.replaceAll(' ', '+');
+    return "$baseUrl$fullString";
+  }
+
+  _launchUrl(String streetName, String cityName, String stateName) async {
+    final Uri url =
+        Uri.parse(createGoogleMapsSearch(streetName, cityName, stateName));
+    if (!await launchUrl(url)) {
+      throw Exception("Could not launch URL");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget._leadListEntry.name),
+        title: Text(widget._leadListEntry.description),
       ),
       body: FutureBuilder(
           future: _lead,
@@ -74,9 +80,25 @@ class _LeadPageState extends State<LeadPage> {
               );
             } else {
               final lead = snapshot.data!;
-              logger.d(lead.description);
               return Column(
-                children: [Text(lead.name)],
+                children: [
+                  const Text("Code:"),
+                  ListTile(
+                    title: Text(lead.code),
+                  ),
+                  const Text("Name: "),
+                  ListTile(title: Text(lead.name)),
+                  const Text("Address"),
+                  ListTile(
+                    title: Text(lead.physicalStreet),
+                    subtitle: Text(
+                        "${lead.physicalSuburb}, ${lead.physicalPostCode}"),
+                    onTap: () {
+                      _launchUrl(lead.physicalStreet, lead.physicalSuburb,
+                          lead.physicalState);
+                    },
+                  )
+                ],
               );
             }
           }),
