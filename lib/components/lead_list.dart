@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 
-import 'package:sham_app/models/lead.dart';
+import 'package:sham_app/models/lead_list_entry.dart';
+import 'package:sham_app/pages/lead_page.dart';
 import 'package:sham_app/services/database_service.dart';
 
 class LeadList extends StatefulWidget {
@@ -12,7 +13,7 @@ class LeadList extends StatefulWidget {
 }
 
 class _LeadListState extends State<LeadList> {
-  late Future<List<Lead>> _leadsFuture;
+  late Future<List<LeadListEntry>> _leadsFuture;
   final DatabaseService _databaseService = DatabaseService();
 
   @override
@@ -21,7 +22,7 @@ class _LeadListState extends State<LeadList> {
     _leadsFuture = _fetchLeads();
   }
 
-  Future<List<Lead>> _fetchLeads() async {
+  Future<List<LeadListEntry>> _fetchLeads() async {
     final response = await _databaseService.getMyLeads();
 
     if (response == null) {
@@ -29,12 +30,12 @@ class _LeadListState extends State<LeadList> {
     }
 
     final List<dynamic> jsonData = json.decode(response);
-    return jsonData.map((item) => Lead.fromJson(item)).toList();
+    return jsonData.map((item) => LeadListEntry.fromJson(item)).toList();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Lead>>(
+    return FutureBuilder<List<LeadListEntry>>(
       future: _leadsFuture,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -55,6 +56,13 @@ class _LeadListState extends State<LeadList> {
                 title: Text(lead.description),
                 subtitle: Text('Code: ${lead.code}\nName: ${lead.name}'),
                 trailing: Text(lead.createdOn),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              LeadPage(leadListEntry: leads[index])));
+                },
               );
             },
           );

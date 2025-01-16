@@ -113,4 +113,22 @@ class DatabaseService {
       return null;
     }
   }
+
+  Future<String?> getLead(leadId) async {
+    http.Request request =
+        http.Request('GET', Uri.parse('$baseUrl/CRM/Lead/$leadId'));
+    request.headers.addAll({'Authorization': 'Bearer $accessToken'});
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      String responseString = await response.stream.bytesToString();
+      logger.d(responseString);
+      return responseString;
+    } else {
+      logger.e(
+          "Failure to get lead ${response.statusCode} | ${response.reasonPhrase}");
+      return null;
+    }
+  }
 }

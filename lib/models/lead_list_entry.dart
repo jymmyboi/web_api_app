@@ -1,4 +1,4 @@
-class Lead {
+class LeadListEntry {
   final String code;
   final String description;
   final String name;
@@ -18,7 +18,7 @@ class Lead {
   final List<dynamic> extendedProperties;
   final int id;
 
-  Lead(
+  LeadListEntry(
       this.code,
       this.description,
       this.name,
@@ -38,7 +38,7 @@ class Lead {
       this.extendedProperties,
       this.id);
 
-  Lead.fromJson(Map<String, dynamic> json)
+  LeadListEntry.fromJson(Map<String, dynamic> json)
       : code = json['Code'] as String,
         description = json['Description'] as String,
         name = json['Name'] as String,
