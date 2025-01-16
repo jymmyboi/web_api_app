@@ -1,16 +1,16 @@
 class Lead {
-  final String closedOn;
+  final String? closedOn;
   final String code;
   final String description;
-  final int customerId;
-  final int territoryId;
-  final int industryId;
-  final int campaignId;
-  final int salesCategoryId;
-  final int salesProcessId;
-  final int salesSourceId;
-  final int leadStageId;
-  final int salesRepresentativeId;
+  final int? customerId;
+  final int? territoryId;
+  final int? industryId;
+  final int? campaignId;
+  final int? salesCategoryId;
+  final int? salesProcessId;
+  final int? salesSourceId;
+  final int? leadStageId;
+  final int? salesRepresentativeId;
   final int currencyId;
   final String name;
   final String tradingName;
@@ -33,12 +33,12 @@ class Lead {
   final double foreignBudgetValue;
   final double estimatedValue;
   final double foreignEstimatedValue;
-  final double actualValue;
-  final double foreignActualValue;
-  final String estimatedCompletion;
-  final String convertedOn;
-  final int salesOwnerId;
-  final int assignedToId;
+  final double? actualValue;
+  final double? foreignActualValue;
+  final String? estimatedCompletion;
+  final String? convertedOn;
+  final int? salesOwnerId;
+  final int? assignedToId;
   final List<dynamic> details;
   final int stageType;
   final bool isAutomatic;
@@ -107,18 +107,18 @@ class Lead {
       this.id);
 
   Lead.fromJson(Map<String, dynamic> json)
-      : closedOn = json['ClosedOn'] as String,
+      : closedOn = json['ClosedOn'] as String?,
         code = json['Code'] as String,
         description = json['Description'] as String,
-        customerId = json['CustomerId'] as int,
-        territoryId = json['TerritoryId'] as int,
-        industryId = json['IndustryId'] as int,
-        campaignId = json['CampaignId'] as int,
-        salesCategoryId = json['SalesCategoryId'] as int,
-        salesProcessId = json['SalesProcessId'] as int,
-        salesSourceId = json['SalesSourceId'] as int,
-        leadStageId = json['LeadStageId'] as int,
-        salesRepresentativeId = json['SalesRepresentativeId'] as int,
+        customerId = json['CustomerId'] as int?,
+        territoryId = json['TerritoryId'] as int?,
+        industryId = json['IndustryId'] as int?,
+        campaignId = json['CampaignId'] as int?,
+        salesCategoryId = json['SalesCategoryId'] as int?,
+        salesProcessId = json['SalesProcessId'] as int?,
+        salesSourceId = json['SalesSourceId'] as int?,
+        leadStageId = json['LeadStageId'] as int?,
+        salesRepresentativeId = json['SalesRepresentativeId'] as int?,
         currencyId = json['CurrencyId'] as int,
         name = json['Name'] as String,
         tradingName = json['TradingName'] as String,
@@ -141,12 +141,15 @@ class Lead {
         foreignBudgetValue = json['ForeignBudgetValue'] as double,
         estimatedValue = json['EstimatedValue'] as double,
         foreignEstimatedValue = json['ForeignEstimatedValue'] as double,
-        actualValue = json['ActualValue'] as double,
-        foreignActualValue = json['ForeignActualValue'] as double,
-        estimatedCompletion = json['EstimatedCompletion'] as String,
-        convertedOn = json['ConvertedOn'] as String,
-        salesOwnerId = json['SalesOwnerId'] as int,
-        assignedToId = json['AssignedToId'] as int,
+        actualValue =
+            json['ActualValue'] != null ? json['ActualValue'] as double : null,
+        foreignActualValue = json['ForeignActualValue'] != null
+            ? json['ForeignActualValue'] as double
+            : null,
+        estimatedCompletion = json['EstimatedCompletion'] as String?,
+        convertedOn = json['ConvertedOn'] as String?,
+        salesOwnerId = json['SalesOwnerId'] as int?,
+        assignedToId = json['AssignedToId'] as int?,
         details = json['Details'] as List<dynamic>,
         stageType = json['StageType'] as int,
         isAutomatic = json['IsAutomatic'] as bool,
