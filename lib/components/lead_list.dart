@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sham_app/components/future_widget.dart';
 import 'dart:convert';
 
 import 'package:sham_app/models/lead_list_entry.dart';
@@ -23,12 +24,9 @@ class _LeadListState extends State<LeadList> {
   }
 
   Future<void> _refreshData() async {
-    Future<List<LeadListEntry>> freshLeads = _fetchLeads();
-    setState(
-      () {
-        _leadsFuture = freshLeads;
-      },
-    );
+    setState(() {
+      _leadsFuture = _fetchLeads();
+    });
   }
 
   Future<List<LeadListEntry>> _fetchLeads() async {
@@ -44,48 +42,41 @@ class _LeadListState extends State<LeadList> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<LeadListEntry>>(
+    return FutureWidget<List<LeadListEntry>>(
       future: _leadsFuture,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(
-            child: Text('Error: ${snapshot.error}'),
-          );
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+      dataBuilder: (context, leads) {
+        if (leads.isEmpty) {
           return const Center(child: Text('No leads found.'));
-        } else {
-          final leads = snapshot.data!;
-          return RefreshIndicator(
-            onRefresh: _refreshData,
-            child: ListView.builder(
-              itemCount: leads.length,
-              itemBuilder: (context, index) {
-                final lead = leads[index];
-                return ListTile(
-                  title: Text(lead.description),
-                  subtitle: Text('Code: ${lead.code}\nName: ${lead.name}'),
-                  trailing: Text(lead.createdOn),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            LeadPage(leadListEntry: leads[index]),
-                      ),
-                    ).then(
-                      (_) {
-                        _refreshData();
-                      },
-                    );
-                  },
-                );
-              },
-            ),
-          );
         }
+        return RefreshIndicator(
+          onRefresh: _refreshData,
+          child: ListView.builder(
+            itemCount: leads.length,
+            itemBuilder: (context, index) {
+              final lead = leads[index];
+              return ListTile(
+                title: Text(lead.description),
+                subtitle: Text('Code: ${lead.code}\nName: ${lead.name}'),
+                trailing: Text(lead.createdOn),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LeadPage(leadListEntry: lead),
+                    ),
+                  ).then((_) => _refreshData());
+                },
+              );
+            },
+          ),
+        );
       },
+      loadingBuilder: (context) => const Center(
+        child: CircularProgressIndicator(),
+      ),
+      errorBuilder: (context) => const Center(
+        child: Text('Error loading leads.'),
+      ),
     );
   }
 }
