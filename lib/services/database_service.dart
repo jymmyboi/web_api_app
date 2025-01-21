@@ -127,4 +127,21 @@ class DatabaseService {
       return null;
     }
   }
+
+  Future<String?> deleteLead(leadId) async {
+    http.Request request =
+        http.Request('DELETE', Uri.parse('$baseUrl/CRM/Lead/$leadId'));
+    request.headers.addAll({'Authorization': 'Bearer $accessToken'});
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 204) {
+      String responseString = await response.stream.bytesToString();
+      return responseString;
+    } else {
+      logger.e(
+          "Failure to delete lead ${response.statusCode} | ${response.reasonPhrase}");
+      return null;
+    }
+  }
 }

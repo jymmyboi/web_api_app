@@ -22,7 +22,7 @@ class _LeadListState extends State<LeadList> {
     _leadsFuture = _fetchLeads();
   }
 
-  Future<void> _pullRefresh() async {
+  Future<void> _refreshData() async {
     Future<List<LeadListEntry>> freshLeads = _fetchLeads();
     setState(
       () {
@@ -58,7 +58,7 @@ class _LeadListState extends State<LeadList> {
         } else {
           final leads = snapshot.data!;
           return RefreshIndicator(
-            onRefresh: _pullRefresh,
+            onRefresh: _refreshData,
             child: ListView.builder(
               itemCount: leads.length,
               itemBuilder: (context, index) {
@@ -69,10 +69,16 @@ class _LeadListState extends State<LeadList> {
                   trailing: Text(lead.createdOn),
                   onTap: () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                LeadPage(leadListEntry: leads[index])));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            LeadPage(leadListEntry: leads[index]),
+                      ),
+                    ).then(
+                      (_) {
+                        _refreshData();
+                      },
+                    );
                   },
                 );
               },

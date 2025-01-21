@@ -55,7 +55,8 @@ class _LeadPageState extends State<LeadPage> {
     }
   }
 
-  Future<void> _showDeleteDialog() async {
+  Future<void> _showDeleteDialog(Future<Lead> futureLead) async {
+    final lead = await futureLead;
     return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -63,7 +64,22 @@ class _LeadPageState extends State<LeadPage> {
           title: const Text("WARNING!"),
           content:
               const Text("This will delete the lead, there is no undo button."),
-          actions: [TextButton(onPressed: () {}, child: const Text("Delete"))],
+          actions: [
+            TextButton(
+                onPressed: () async {
+                  if (await _databaseService.deleteLead(lead.id) != null) {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  } else {
+                    const SnackBar(
+                      content:
+                          Text('There has been an error deleting the lead'),
+                    );
+                  }
+                  ;
+                },
+                child: const Text("Delete"))
+          ],
         );
       },
     );
@@ -92,7 +108,7 @@ class _LeadPageState extends State<LeadPage> {
                 padding: const EdgeInsets.all(30.0),
                 child: FloatingActionButton(
                   onPressed: () {
-                    _showDeleteDialog();
+                    _showDeleteDialog(_lead);
                   },
                   backgroundColor: Colors.red,
                   child: const Icon(
