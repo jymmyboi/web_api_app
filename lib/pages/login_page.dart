@@ -25,6 +25,7 @@ class _LoginPageState extends State<LoginPage> {
   void updateDropdown(List<String> newEntries) {
     setState(() {
       serverDetails = newEntries;
+      logger.i(serverDetails);
       if (serverDetails.isNotEmpty && selectedServer == null) {
         selectedServer = serverDetails.first; // Set default selection
       }
@@ -105,15 +106,15 @@ class _LoginPageState extends State<LoginPage> {
                 child: const Text("Submit")),
             OutlinedButton(
                 onPressed: () async {
-                  setState(() {
-                    serverDetails = [];
-                  });
                   final List<String>? result = await Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => ConnectServerPage()),
                   );
-
+                  setState(() {
+                    serverDetails = [];
+                    selectedServer = null;
+                  });
                   if (result != null) {
                     updateDropdown(result);
                   }
