@@ -14,7 +14,7 @@ class LeadEditPage extends StatelessWidget {
       dataBuilder: (context, lead) => Scaffold(
         appBar: AppBar(
           title: Text(lead.name),
-        ),
+        ), //TODO: Add edit functionality
       ),
       loadingBuilder: (context) => Scaffold(
         appBar: AppBar(
