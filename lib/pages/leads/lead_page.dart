@@ -55,53 +55,100 @@ class _LeadPageState extends State<LeadPage> {
     }
   }
 
+  Future<void> _showDeleteDialog() async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("WARNING!"),
+          content:
+              const Text("This will delete the lead, there is no undo button."),
+          actions: [TextButton(onPressed: () {}, child: const Text("Delete"))],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget._leadListEntry.description),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.edit),
+            onPressed: () {},
+          )
+        ],
       ),
-      body: FutureBuilder(
-          future: _lead,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              // Display a loading spinner while fetching data
-              return const Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              logger.e(snapshot.error);
-              // Display an error message if something goes wrong
-              return Center(
-                child: Text("Error: ${snapshot.error}"),
-              );
-            } else if (!snapshot.hasData) {
-              // Handle the case where no data is returned
-              return const Center(
-                child: Text("No data available"),
-              );
-            } else {
-              final lead = snapshot.data!;
-              return Column(
-                children: [
-                  const Text("Code:"),
-                  ListTile(
-                    title: Text(lead.code),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          leadFutureBuilder(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: FloatingActionButton(
+                  onPressed: () {
+                    _showDeleteDialog();
+                  },
+                  backgroundColor: Colors.red,
+                  child: const Icon(
+                    Icons.delete,
+                    color: Colors.white,
                   ),
-                  const Text("Name: "),
-                  ListTile(title: Text(lead.name)),
-                  const Text("Address"),
-                  ListTile(
-                    title: Text(lead.physicalStreet),
-                    subtitle: Text(
-                        "${lead.physicalSuburb}, ${lead.physicalPostCode}"),
-                    onTap: () {
-                      _launchUrl(lead.physicalStreet, lead.physicalSuburb,
-                          lead.physicalState);
-                    },
-                  )
-                ],
-              );
-            }
-          }),
+                ),
+              ),
+            ],
+          )
+        ],
+      ),
     );
+  }
+
+  FutureBuilder<Lead> leadFutureBuilder() {
+    return FutureBuilder(
+        future: _lead,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            // Display a loading spinner while fetching data
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            logger.e(snapshot.error);
+            // Display an error message if something goes wrong
+            return Center(
+              child: Text("Error: ${snapshot.error}"),
+            );
+          } else if (!snapshot.hasData) {
+            // Handle the case where no data is returned
+            return const Center(
+              child: Text("No data available"),
+            );
+          } else {
+            final lead = snapshot.data!;
+            return Column(
+              children: [
+                const Text("Code:"),
+                ListTile(
+                  title: Text(lead.code),
+                ),
+                const Text("Name: "),
+                ListTile(title: Text(lead.name)),
+                const Text("Address"),
+                ListTile(
+                  title: Text(lead.physicalStreet),
+                  subtitle:
+                      Text("${lead.physicalSuburb}, ${lead.physicalPostCode}"),
+                  onTap: () {
+                    _launchUrl(lead.physicalStreet, lead.physicalSuburb,
+                        lead.physicalState);
+                  },
+                )
+              ],
+            );
+          }
+        });
   }
 }
