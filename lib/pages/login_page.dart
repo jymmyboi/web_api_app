@@ -105,6 +105,9 @@ class _LoginPageState extends State<LoginPage> {
                 child: const Text("Submit")),
             OutlinedButton(
                 onPressed: () async {
+                  setState(() {
+                    serverDetails = [];
+                  });
                   final List<String>? result = await Navigator.push(
                     context,
                     MaterialPageRoute(

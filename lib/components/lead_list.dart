@@ -22,6 +22,15 @@ class _LeadListState extends State<LeadList> {
     _leadsFuture = _fetchLeads();
   }
 
+  Future<void> _pullRefresh() async {
+    Future<List<LeadListEntry>> freshLeads = _fetchLeads();
+    setState(
+      () {
+        _leadsFuture = freshLeads;
+      },
+    );
+  }
+
   Future<List<LeadListEntry>> _fetchLeads() async {
     final response = await _databaseService.getMyLeads();
 
@@ -48,23 +57,26 @@ class _LeadListState extends State<LeadList> {
           return const Center(child: Text('No leads found.'));
         } else {
           final leads = snapshot.data!;
-          return ListView.builder(
-            itemCount: leads.length,
-            itemBuilder: (context, index) {
-              final lead = leads[index];
-              return ListTile(
-                title: Text(lead.description),
-                subtitle: Text('Code: ${lead.code}\nName: ${lead.name}'),
-                trailing: Text(lead.createdOn),
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              LeadPage(leadListEntry: leads[index])));
-                },
-              );
-            },
+          return RefreshIndicator(
+            onRefresh: _pullRefresh,
+            child: ListView.builder(
+              itemCount: leads.length,
+              itemBuilder: (context, index) {
+                final lead = leads[index];
+                return ListTile(
+                  title: Text(lead.description),
+                  subtitle: Text('Code: ${lead.code}\nName: ${lead.name}'),
+                  trailing: Text(lead.createdOn),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                LeadPage(leadListEntry: leads[index])));
+                  },
+                );
+              },
+            ),
           );
         }
       },
