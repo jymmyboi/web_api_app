@@ -25,7 +25,6 @@ class _LoginPageState extends State<LoginPage> {
   void updateDropdown(List<String> newEntries) {
     setState(() {
       serverDetails = newEntries;
-      logger.i(serverDetails);
       if (serverDetails.isNotEmpty && selectedServer == null) {
         selectedServer = serverDetails.first; // Set default selection
       }
@@ -83,15 +82,12 @@ class _LoginPageState extends State<LoginPage> {
                   final String username = usernameController.text.trim();
                   final String password = passwordController.text.trim();
 
-                  logger.i("Username: $username, Password: $password");
-
                   if (selectedServer == null ||
                       username.isEmpty ||
                       password.isEmpty) {
                     logger.e("Missing inputs");
                     return;
                   }
-                  logger.i((selectedServer, username, password));
                   final String? bearer = await databaseService.getBearerToken(
                       selectedServer!, username, password);
                   if (bearer != null) {

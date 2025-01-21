@@ -46,7 +46,6 @@ class ConnectServerPage extends StatelessWidget {
                   try {
                     var response =
                         await databaseService.getDatabases(server, accessKey);
-                    logger.i(response);
                     Navigator.of(context).pop(response);
                   } catch (e) {
                     logger.e(e);

@@ -77,7 +77,6 @@ class DatabaseService {
         'password': password,
         'keys': accessKey!,
       };
-      logger.d(request.body);
       http.StreamedResponse response = await request.send();
 
       if (response.statusCode == 200) {
@@ -98,14 +97,12 @@ class DatabaseService {
   Future<String?> getMyLeads() async {
     http.Request request =
         http.Request('GET', Uri.parse('${baseUrl!}/CRM/MyLeadInfoList'));
-    logger.d(accessToken);
     request.headers.addAll({'Authorization': 'Bearer $accessToken'});
 
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
       String responseString = await response.stream.bytesToString();
-      logger.d(responseString);
       return responseString;
     } else {
       logger.e(
@@ -123,7 +120,6 @@ class DatabaseService {
 
     if (response.statusCode == 200) {
       String responseString = await response.stream.bytesToString();
-      logger.d(responseString);
       return responseString;
     } else {
       logger.e(
