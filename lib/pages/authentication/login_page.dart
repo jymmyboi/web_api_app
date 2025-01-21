@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
-import 'package:sham_app/pages/connect_server_page.dart';
-import 'package:sham_app/pages/home_page.dart';
+import 'package:sham_app/pages/authentication/connect_server_page.dart';
+import 'package:sham_app/pages/leads/lead_list_page.dart';
 import 'package:sham_app/services/database_service.dart';
 
 class LoginPage extends StatefulWidget {
@@ -98,7 +98,7 @@ class _LoginPageState extends State<LoginPage> {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const HomePage()));
+                            builder: (context) => const LeadListPage()));
                   } else {
                     logger.e("Failed to authenticate");
                   }

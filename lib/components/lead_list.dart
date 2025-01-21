@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 
 import 'package:sham_app/models/lead_list_entry.dart';
-import 'package:sham_app/pages/lead_page.dart';
+import 'package:sham_app/pages/leads/lead_page.dart';
 import 'package:sham_app/services/database_service.dart';
 
 class LeadList extends StatefulWidget {

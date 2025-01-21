@@ -5,7 +5,7 @@ import 'package:logger/logger.dart';
 import 'package:sham_app/models/lead.dart';
 import 'package:sham_app/services/database_service.dart';
 
-import '../models/lead_list_entry.dart';
+import '../../models/lead_list_entry.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LeadPage extends StatefulWidget {
