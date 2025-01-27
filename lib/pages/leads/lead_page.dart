@@ -145,6 +145,7 @@ class _LeadPageState extends State<LeadPage> {
               Padding(
                 padding: const EdgeInsets.all(30.0),
                 child: FloatingActionButton(
+                  //TODO: House convert and close buttons in one button here.
                   onPressed: () {
                     _showDeleteDialog(_lead);
                   },

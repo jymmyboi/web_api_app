@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 
+//TODO: Add checks for permissions.
 class DatabaseService {
   static final DatabaseService _instance = DatabaseService._internal();
 
@@ -111,7 +112,7 @@ class DatabaseService {
     }
   }
 
-  Future<String?> getLead(leadId) async {
+  Future<String?> getLead(int leadId) async {
     http.Request request =
         http.Request('GET', Uri.parse('$baseUrl/CRM/Lead/$leadId'));
     request.headers.addAll({'Authorization': 'Bearer $accessToken'});
@@ -128,7 +129,7 @@ class DatabaseService {
     }
   }
 
-  Future<String?> deleteLead(leadId) async {
+  Future<String?> deleteLead(int leadId) async {
     http.Request request =
         http.Request('DELETE', Uri.parse('$baseUrl/CRM/Lead/$leadId'));
     request.headers.addAll({'Authorization': 'Bearer $accessToken'});
@@ -141,6 +142,34 @@ class DatabaseService {
     } else {
       logger.e(
           "Failure to delete lead ${response.statusCode} | ${response.reasonPhrase}");
+      return null;
+    }
+  }
+
+  Future<String?> editLead(
+      int leadId,
+      String leadCode,
+      String leadDescription,
+      int leadCurrencyId,
+      int leadSalesSourceId,
+      int leadSalesCategoryId,
+      int leadSalesProcessId,
+      int leadStageId,
+      String leadName,
+      String leadDetails) async {
+    http.Request request = http.Request('POST', Uri.parse('$baseUrl/CRM/Lead'));
+    request.headers.addAll({'Authorization': 'Bearer $accessToken'});
+    request.body =
+        '''{\r\n    "Id": $leadId,\r\n    "Code": $leadCode,\r\n    "Description": $leadDescription,\r\n    "CurrencyId": $leadCurrencyId,\r\n    "SalesSourceId": $leadSalesSourceId,\r\n    "SalesCategoryId": $leadSalesCategoryId,\r\n    "SalesProcessId": $leadSalesProcessId,\r\n    "LeadStageId": $leadStageId,\r\n    "Name": $leadName,\r\n    "Details": $leadDetails\r\n}''';
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      String responseString = await response.stream.bytesToString();
+      return responseString;
+    } else {
+      logger.e(
+          "Failure to edit lead ${response.statusCode} | ${response.reasonPhrase}");
       return null;
     }
   }
