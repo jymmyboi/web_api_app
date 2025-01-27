@@ -20,6 +20,8 @@ class ConnectServerPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
+                keyboardType: TextInputType
+                    .visiblePassword, //doing this to stop autocorrect
                 controller: serverController,
                 key: const Key('server'),
                 decoration: const InputDecoration(
