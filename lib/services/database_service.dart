@@ -176,4 +176,21 @@ class DatabaseService {
       return null;
     }
   }
+
+  Future<String?> getMyOpportunities() async {
+    http.Request request =
+        http.Request('GET', Uri.parse('${baseUrl!}/CRM/MyOpportunityInfoList'));
+    request.headers.addAll({'Authorization': 'Bearer $accessToken'});
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      String responseString = await response.stream.bytesToString();
+      return responseString;
+    } else {
+      logger.e(
+          "Failure to get opportunities ${response.statusCode} | ${response.reasonPhrase}");
+      return null;
+    }
+  }
 }

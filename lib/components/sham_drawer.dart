@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sham_app/pages/leads/lead_list_page.dart';
+import 'package:sham_app/pages/opportunities/opportunity_list_page.dart';
 
 class ShamDrawer extends StatelessWidget {
   const ShamDrawer({
@@ -7,18 +9,34 @@ class ShamDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Drawer(
+    return Drawer(
       child: Column(
         children: [
-          Center(
+          const Center(
             child: DrawerHeader(
               child: Text("SCAM"),
             ),
           ),
           ListTile(
-            title: Text("Opportunities"),
+            title: const Text("Leads"),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const LeadListPage()),
+              );
+            },
           ),
           ListTile(
+            title: const Text("Opportunities"),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const OpportunityListPage()),
+              );
+            },
+          ),
+          const ListTile(
             title: Text("Campaigns"),
           ),
         ],
