@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:logger/logger.dart';
 import 'package:sham_app/components/future_widget.dart';
 import 'package:sham_app/models/lead.dart';
@@ -31,6 +32,12 @@ class _LeadPageState extends State<LeadPage> {
   void initState() {
     super.initState();
     _lead = _fetchLead();
+  }
+
+  Future<void> _refreshData() async {
+    setState(() {
+      _lead = _fetchLead();
+    });
   }
 
   Future<Lead> _fetchLead() async {
@@ -90,8 +97,21 @@ class _LeadPageState extends State<LeadPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: ExpandableFab.location,
+      floatingActionButton: ExpandableFab(children: [
+        FloatingActionButton.small(
+          tooltip: "Convert",
+          onPressed: () {},
+          child: const Icon(Icons.handshake),
+        ),
+        FloatingActionButton.small(
+          tooltip: "Close",
+          onPressed: () {},
+          child: const Icon(Icons.archive),
+        ),
+      ]),
       appBar: AppBar(
-        title: Text(widget._leadListEntry.description),
+        title: const Text("Lead"),
         actions: [
           IconButton(
             icon: const Icon(Icons.edit),
@@ -102,7 +122,7 @@ class _LeadPageState extends State<LeadPage> {
                     builder: (context) => LeadEditPage(
                       leadFuture: _lead,
                     ),
-                  ));
+                  )).then((_) => _refreshData());
             },
           )
         ],
@@ -139,25 +159,6 @@ class _LeadPageState extends State<LeadPage> {
               child: Text("Error fetching lead data"),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(30.0),
-                child: FloatingActionButton(
-                  //TODO: House convert and close buttons in one button here.
-                  onPressed: () {
-                    _showDeleteDialog(_lead);
-                  },
-                  backgroundColor: Colors.red,
-                  child: const Icon(
-                    Icons.delete,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ],
-          )
         ],
       ),
     );

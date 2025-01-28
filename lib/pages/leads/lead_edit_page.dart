@@ -1,16 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:sham_app/components/future_widget.dart';
 import 'package:sham_app/models/lead.dart';
+import 'package:sham_app/services/database_service.dart';
 
-class LeadEditPage extends StatelessWidget {
+class LeadEditPage extends StatefulWidget {
   const LeadEditPage({super.key, required this.leadFuture});
 
   final Future<Lead> leadFuture;
 
   @override
+  State<LeadEditPage> createState() => _LeadEditPageState();
+}
+
+class _LeadEditPageState extends State<LeadEditPage> {
+  final DatabaseService _databaseService = DatabaseService();
+
+  late TextEditingController _descriptionController;
+  late TextEditingController _nameController;
+  late TextEditingController _detailsController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Initialize controllers when the widget is first created.
+    widget.leadFuture.then((lead) {
+      _descriptionController = TextEditingController(text: lead.description);
+      _nameController = TextEditingController(text: lead.name);
+      _detailsController = TextEditingController(text: lead.details);
+      setState(
+          () {}); // Rebuild the widget to reflect the initialized controllers.
+    });
+  }
+
+  @override
+  void dispose() {
+    // Dispose of the controllers to free up resources.
+    _descriptionController.dispose();
+    _nameController.dispose();
+    _detailsController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FutureWidget(
-      future: leadFuture,
+      future: widget.leadFuture,
       dataBuilder: (context, lead) => Scaffold(
         appBar: AppBar(
           title: Text(lead.name),
@@ -24,7 +59,7 @@ class LeadEditPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
-                    controller: TextEditingController(text: lead.description),
+                    controller: _descriptionController,
                     decoration:
                         const InputDecoration(border: OutlineInputBorder()),
                   ),
@@ -33,7 +68,7 @@ class LeadEditPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
-                    controller: TextEditingController(text: lead.name),
+                    controller: _nameController,
                     decoration:
                         const InputDecoration(border: OutlineInputBorder()),
                   ),
@@ -42,7 +77,7 @@ class LeadEditPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
-                    controller: TextEditingController(text: lead.details),
+                    controller: _detailsController,
                     decoration:
                         const InputDecoration(border: OutlineInputBorder()),
                   ),
@@ -56,13 +91,30 @@ class LeadEditPage extends StatelessWidget {
                   padding: const EdgeInsets.all(30),
                   child: FloatingActionButton(
                     child: const Icon(Icons.save),
-                    onPressed: () {},
+                    onPressed: () async {
+                      // Use the controller values when saving the data.
+                      if (await _databaseService.editLead(
+                            lead.id,
+                            lead.code,
+                            _descriptionController.text,
+                            lead.currencyId,
+                            lead.salesSourceId,
+                            lead.salesCategoryId,
+                            lead.salesProcessId,
+                            lead.leadStageId,
+                            _nameController.text,
+                            _detailsController.text,
+                          ) !=
+                          null) {
+                        Navigator.of(context).pop();
+                      }
+                    },
                   ),
                 ),
               ],
             )
           ],
-        ), //TODO: Add edit functionality
+        ),
       ),
       loadingBuilder: (context) => Scaffold(
         appBar: AppBar(

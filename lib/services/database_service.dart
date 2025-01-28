@@ -151,17 +151,20 @@ class DatabaseService {
       String leadCode,
       String leadDescription,
       int leadCurrencyId,
-      int leadSalesSourceId,
-      int leadSalesCategoryId,
-      int leadSalesProcessId,
-      int leadStageId,
+      int? leadSalesSourceId,
+      int? leadSalesCategoryId,
+      int? leadSalesProcessId,
+      int? leadStageId,
       String leadName,
       String leadDetails) async {
     http.Request request = http.Request('POST', Uri.parse('$baseUrl/CRM/Lead'));
-    request.headers.addAll({'Authorization': 'Bearer $accessToken'});
+    request.headers.addAll({
+      'Authorization': 'Bearer $accessToken',
+      'Content-Type': 'application/json',
+    });
     request.body =
-        '''{\r\n    "Id": $leadId,\r\n    "Code": $leadCode,\r\n    "Description": $leadDescription,\r\n    "CurrencyId": $leadCurrencyId,\r\n    "SalesSourceId": $leadSalesSourceId,\r\n    "SalesCategoryId": $leadSalesCategoryId,\r\n    "SalesProcessId": $leadSalesProcessId,\r\n    "LeadStageId": $leadStageId,\r\n    "Name": $leadName,\r\n    "Details": $leadDetails\r\n}''';
-
+        '''{\r\n    "Id": $leadId,\r\n    "Code": "$leadCode",\r\n    "Description": "$leadDescription",\r\n    "CurrencyId": $leadCurrencyId,\r\n    "SalesSourceId": $leadSalesSourceId,\r\n    "SalesCategoryId": $leadSalesCategoryId,\r\n    "SalesProcessId": $leadSalesProcessId,\r\n    "LeadStageId": $leadStageId,\r\n    "Name": "$leadName",\r\n    "Details": "$leadDetails"\r\n}''';
+    logger.d(request.body);
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
