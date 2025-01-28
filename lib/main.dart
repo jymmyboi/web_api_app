@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sham_app/pages/authentication/login_page.dart';
+import 'package:sham_app/services/database_service.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  DatabaseService databaseService = DatabaseService();
+  await databaseService.loadBaseUrlAndAccessKey();
   runApp(const MyApp());
 }
 

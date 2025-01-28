@@ -41,6 +41,7 @@ dependencies:
   flutter_bloc: ^8.1.6
   url_launcher: ^6.3.1
   flutter_expandable_fab: ^2.3.0
+  shared_preferences: ^2.4.0
 
 dev_dependencies:
   flutter_test:

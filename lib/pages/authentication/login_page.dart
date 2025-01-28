@@ -21,6 +21,33 @@ class _LoginPageState extends State<LoginPage> {
 
   List<String> serverDetails = [];
   String? selectedServer;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedServerDetails();
+  }
+
+  Future<void> _loadSavedServerDetails() async {
+    await databaseService.loadBaseUrlAndAccessKey();
+    if (databaseService.baseUrl != null && databaseService.accessKey != null) {
+      logger.i("loaded base url: ${databaseService.baseUrl}");
+
+      List<String>? databases = await databaseService.getDatabases(
+          databaseService.baseUrl!, databaseService.accessKey!);
+
+      if (databases != null && databases.isNotEmpty) {
+        setState(() {
+          serverDetails = databases;
+          selectedServer = databases.first;
+        });
+      }
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   void updateDropdown(List<String> newEntries) {
     setState(() {
@@ -37,88 +64,92 @@ class _LoginPageState extends State<LoginPage> {
       appBar: AppBar(
         title: const Text("Sybiz CRM Action Manager"),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Padding(
               padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: usernameController,
-                key: const Key('username'),
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(), hintText: 'Username'),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextField(
-                controller: passwordController,
-                key: const Key('password'),
-                obscureText: true,
-                decoration: const InputDecoration(
-                    border: OutlineInputBorder(), hintText: 'Password'),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: DropdownButton<String>(
-                hint: const Text("No server connected"),
-                isExpanded: true,
-                value: selectedServer,
-                items: serverDetails.map((String server) {
-                  return DropdownMenuItem(value: server, child: Text(server));
-                }).toList(),
-                onChanged: (String? newValue) {
-                  setState(() {
-                    selectedServer = newValue;
-                  });
-                },
-              ),
-            ),
-            OutlinedButton(
-                onPressed: () async {
-                  final String username = usernameController.text.trim();
-                  final String password = passwordController.text.trim();
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      controller: usernameController,
+                      key: const Key('username'),
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(), hintText: 'Username'),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: TextField(
+                      controller: passwordController,
+                      key: const Key('password'),
+                      obscureText: true,
+                      decoration: const InputDecoration(
+                          border: OutlineInputBorder(), hintText: 'Password'),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: DropdownButton<String>(
+                      hint: const Text("No server connected"),
+                      isExpanded: true,
+                      value: selectedServer,
+                      items: serverDetails.map((String server) {
+                        return DropdownMenuItem(
+                            value: server, child: Text(server));
+                      }).toList(),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          selectedServer = newValue;
+                        });
+                      },
+                    ),
+                  ),
+                  OutlinedButton(
+                      onPressed: () async {
+                        final String username = usernameController.text.trim();
+                        final String password = passwordController.text.trim();
 
-                  if (selectedServer == null ||
-                      username.isEmpty ||
-                      password.isEmpty) {
-                    logger.e("Missing inputs");
-                    return;
-                  }
-                  final String? bearer = await databaseService.getBearerToken(
-                      selectedServer!, username, password);
-                  if (bearer != null) {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const LeadListPage()));
-                  } else {
-                    logger.e("Failed to authenticate");
-                  }
-                },
-                child: const Text("Submit")),
-            OutlinedButton(
-                onPressed: () async {
-                  final List<String>? result = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ConnectServerPage()),
-                  );
-                  setState(() {
-                    serverDetails = [];
-                    selectedServer = null;
-                  });
-                  if (result != null) {
-                    updateDropdown(result);
-                  }
-                },
-                child: const Text("Connect Server"))
-          ],
-        ),
-      ),
+                        if (selectedServer == null ||
+                            username.isEmpty ||
+                            password.isEmpty) {
+                          logger.e("Missing inputs");
+                          return;
+                        }
+                        final String? bearer =
+                            await databaseService.getBearerToken(
+                                selectedServer!, username, password);
+                        if (bearer != null) {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const LeadListPage()));
+                        } else {
+                          logger.e("Failed to authenticate");
+                        }
+                      },
+                      child: const Text("Submit")),
+                  OutlinedButton(
+                      onPressed: () async {
+                        final List<String>? result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ConnectServerPage()),
+                        );
+                        setState(() {
+                          serverDetails = [];
+                          selectedServer = null;
+                        });
+                        if (result != null) {
+                          updateDropdown(result);
+                        }
+                      },
+                      child: const Text("Connect Server"))
+                ],
+              ),
+            ),
     );
   }
 }
