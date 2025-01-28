@@ -65,35 +65,6 @@ class _LeadPageState extends State<LeadPage> {
     }
   }
 
-  Future<void> _showDeleteDialog(Future<Lead> futureLead) async {
-    final lead = await futureLead;
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("WARNING!"),
-          content:
-              const Text("This will delete the lead, there is no undo button."),
-          actions: [
-            TextButton(
-                onPressed: () async {
-                  if (await _databaseService.deleteLead(lead.id) != null) {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                  } else {
-                    const SnackBar(
-                      content:
-                          Text('There has been an error deleting the lead'),
-                    );
-                  }
-                },
-                child: const Text("Delete"))
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
