@@ -5,6 +5,8 @@ import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 //TODO: Add checks for permissions.
+
+//TODO: Seperate and refactor into individual services
 class DatabaseService {
   static final DatabaseService _instance = DatabaseService._internal();
 
