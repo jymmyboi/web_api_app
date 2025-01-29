@@ -164,6 +164,40 @@ class DatabaseService {
     }
   }
 
+  Future<String?> convertLead(int leadId) async {
+    http.Request request =
+        http.Request('POST', Uri.parse('$baseUrl/CRM/Lead/$leadId/Convert'));
+    request.headers.addAll({'Authorization': 'Bearer $accessToken'});
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      String responseString = await response.stream.bytesToString();
+      return responseString;
+    } else {
+      logger.e(
+          "Failure to convert lead ${response.statusCode} | ${response.reasonPhrase}");
+      return null;
+    }
+  }
+
+  Future<String?> closeLead(int leadId) async {
+    http.Request request =
+        http.Request('POST', Uri.parse('$baseUrl/CRM/Lead/$leadId/Close'));
+    request.headers.addAll({'Authorization': 'Bearer $accessToken'});
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      String responseString = await response.stream.bytesToString();
+      return responseString;
+    } else {
+      logger.e(
+          "Failure to close lead ${response.statusCode} | ${response.reasonPhrase}");
+      return null;
+    }
+  }
+
   Future<String?> editLead(
       int leadId,
       String leadCode,

@@ -69,18 +69,41 @@ class _LeadPageState extends State<LeadPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButtonLocation: ExpandableFab.location,
-      floatingActionButton: ExpandableFab(children: [
-        FloatingActionButton.small(
-          tooltip: "Convert",
-          onPressed: () {},
-          child: const Icon(Icons.handshake),
+      floatingActionButton: FutureWidget<Lead>(
+        future: _lead,
+        dataBuilder: (context, lead) => ExpandableFab(
+          children: [
+            FloatingActionButton.small(
+              tooltip: "Convert",
+              onPressed: () {
+                _databaseService.convertLead(lead.id);
+                logger.i("Convert action triggered for Lead ID: ${lead.id}");
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Converted ${lead.description}")));
+                Navigator.of(context).pop();
+              },
+              child: const Icon(Icons.handshake),
+            ),
+            FloatingActionButton.small(
+              tooltip: "Close",
+              onPressed: () {
+                _databaseService.closeLead(lead.id);
+                logger.i("Close action triggered");
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Closed ${lead.description}")));
+                Navigator.of(context).pop();
+              },
+              child: const Icon(Icons.archive),
+            ),
+          ],
         ),
-        FloatingActionButton.small(
-          tooltip: "Close",
-          onPressed: () {},
-          child: const Icon(Icons.archive),
+        loadingBuilder: (context) => const CircularProgressIndicator(),
+        errorBuilder: (context) => const FloatingActionButton.small(
+          tooltip: "Error",
+          onPressed: null, // Disable button when there's an error
+          child: Icon(Icons.error, color: Colors.red),
         ),
-      ]),
+      ),
       appBar: AppBar(
         title: const Text("Lead"),
         actions: [
