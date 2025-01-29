@@ -74,17 +74,6 @@ class _LeadPageState extends State<LeadPage> {
         dataBuilder: (context, lead) => ExpandableFab(
           children: [
             FloatingActionButton.small(
-              tooltip: "Convert",
-              onPressed: () {
-                _databaseService.convertLead(lead.id);
-                logger.i("Convert action triggered for Lead ID: ${lead.id}");
-                ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("Converted ${lead.description}")));
-                Navigator.of(context).pop();
-              },
-              child: const Icon(Icons.handshake),
-            ),
-            FloatingActionButton.small(
               tooltip: "Close",
               onPressed: () {
                 _databaseService.closeLead(lead.id);
@@ -94,6 +83,17 @@ class _LeadPageState extends State<LeadPage> {
                 Navigator.of(context).pop();
               },
               child: const Icon(Icons.archive),
+            ),
+            FloatingActionButton.small(
+              tooltip: "Convert",
+              onPressed: () {
+                _databaseService.convertLead(lead.id);
+                logger.i("Convert action triggered for Lead ID: ${lead.id}");
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text("Converted ${lead.description}")));
+                Navigator.of(context).pop();
+              },
+              child: const Icon(Icons.handshake),
             ),
           ],
         ),
