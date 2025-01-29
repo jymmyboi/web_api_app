@@ -349,4 +349,21 @@ class DatabaseService {
       return null;
     }
   }
+
+  Future<String?> getMyActivities() async {
+    http.Request request =
+        http.Request('GET', Uri.parse('${baseUrl!}/CRM/MyActivityInfoList'));
+    request.headers.addAll({'Authorization': 'Bearer $accessToken'});
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      String responseString = await response.stream.bytesToString();
+      return responseString;
+    } else {
+      logger.e(
+          "Failure to get activities ${response.statusCode} | ${response.reasonPhrase}");
+      return null;
+    }
+  }
 }

@@ -40,8 +40,16 @@ class ShamDrawer extends StatelessWidget {
                   }
                 },
               ),
-              const ListTile(
-                title: Text("Campaigns"),
+              ListTile(
+                title: const Text("Activities"),
+                onTap: () {
+                  if (ModalRoute.of(context)?.settings.name !=
+                      '/activity_list') {
+                    Navigator.pushNamed(context, '/activity_list');
+                  } else {
+                    Navigator.pop(context); // Close the drawer
+                  }
+                },
               ),
             ],
           ),

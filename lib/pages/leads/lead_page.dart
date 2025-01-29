@@ -72,8 +72,21 @@ class _LeadPageState extends State<LeadPage> {
       floatingActionButton: FutureWidget<Lead>(
         future: _lead,
         dataBuilder: (context, lead) => ExpandableFab(
+          overlayStyle: const ExpandableFabOverlayStyle(blur: 10),
+          openButtonBuilder: DefaultFloatingActionButtonBuilder(
+            foregroundColor: const Color(0xFFF3F1ED),
+            backgroundColor: const Color(0xFF3CCECC),
+            child: const Icon(Icons.menu),
+          ),
+          closeButtonBuilder: DefaultFloatingActionButtonBuilder(
+              foregroundColor: const Color(0xFFF3F1ED),
+              backgroundColor: const Color(0xFF3CCECC),
+              child: const Icon(Icons.close),
+              fabSize: ExpandableFabSize.small),
           children: [
             FloatingActionButton.small(
+              foregroundColor: const Color(0xFFF3F1ED),
+              backgroundColor: const Color(0xFF3CCECC),
               tooltip: "Close",
               onPressed: () {
                 _databaseService.closeLead(lead.id);
@@ -85,6 +98,8 @@ class _LeadPageState extends State<LeadPage> {
               child: const Icon(Icons.archive),
             ),
             FloatingActionButton.small(
+              foregroundColor: const Color(0xFFF3F1ED),
+              backgroundColor: const Color(0xFF3CCECC),
               tooltip: "Convert",
               onPressed: () {
                 _databaseService.convertLead(lead.id);
@@ -105,6 +120,8 @@ class _LeadPageState extends State<LeadPage> {
         ),
       ),
       appBar: AppBar(
+        backgroundColor: const Color(0xFF3CCECC),
+        foregroundColor: const Color(0xFFF3F1ED),
         title: const Text("Lead"),
         actions: [
           IconButton(
@@ -155,6 +172,7 @@ class _LeadPageState extends State<LeadPage> {
           ),
         ],
       ),
+      backgroundColor: const Color(0xFFF3F1ED),
     );
   }
 }

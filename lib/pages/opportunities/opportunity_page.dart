@@ -72,8 +72,21 @@ class _OpportunityPageState extends State<OpportunityPage> {
       floatingActionButton: FutureWidget<Opportunity>(
         future: _opportunity,
         dataBuilder: (context, opportunity) => ExpandableFab(
+          overlayStyle: const ExpandableFabOverlayStyle(blur: 10),
+          openButtonBuilder: DefaultFloatingActionButtonBuilder(
+            foregroundColor: const Color(0xFFF3F1ED),
+            backgroundColor: const Color(0xFF3CCECC),
+            child: const Icon(Icons.menu),
+          ),
+          closeButtonBuilder: DefaultFloatingActionButtonBuilder(
+              foregroundColor: const Color(0xFFF3F1ED),
+              backgroundColor: const Color(0xFF3CCECC),
+              child: const Icon(Icons.close),
+              fabSize: ExpandableFabSize.small),
           children: [
             FloatingActionButton.small(
+              foregroundColor: const Color(0xFFF3F1ED),
+              backgroundColor: const Color(0xFF3CCECC),
               tooltip: "Convert back",
               onPressed: () {
                 _databaseService.convertOpportunity(opportunity.id);
@@ -86,6 +99,8 @@ class _OpportunityPageState extends State<OpportunityPage> {
               child: const Icon(Icons.undo),
             ),
             FloatingActionButton.small(
+              foregroundColor: const Color(0xFFF3F1ED),
+              backgroundColor: const Color(0xFF3CCECC),
               tooltip: "Lost",
               onPressed: () {
                 _databaseService.lostOpportunity(opportunity.id);
@@ -98,6 +113,8 @@ class _OpportunityPageState extends State<OpportunityPage> {
               child: const Icon(Icons.thumb_down),
             ),
             FloatingActionButton.small(
+              foregroundColor: const Color(0xFFF3F1ED),
+              backgroundColor: const Color(0xFF3CCECC),
               tooltip: "Won",
               onPressed: () {
                 _databaseService.wonOpportunity(opportunity.id);
@@ -118,6 +135,8 @@ class _OpportunityPageState extends State<OpportunityPage> {
         ),
       ),
       appBar: AppBar(
+        backgroundColor: const Color(0xFF3CCECC),
+        foregroundColor: const Color(0xFFF3F1ED),
         title: const Text("Opportunity"),
         actions: [
           IconButton(
@@ -167,6 +186,7 @@ class _OpportunityPageState extends State<OpportunityPage> {
           ),
         ],
       ),
+      backgroundColor: const Color(0xFFF3F1ED),
     );
   }
 }

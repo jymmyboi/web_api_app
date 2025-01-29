@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sham_app/pages/activities/activity_list_page.dart';
 import 'package:sham_app/pages/authentication/login_page.dart';
 import 'package:sham_app/pages/leads/lead_list_page.dart';
 import 'package:sham_app/pages/opportunities/opportunity_list_page.dart';
@@ -20,7 +21,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       routes: {
         '/lead_list': (context) => const LeadListPage(),
-        '/opportunity_list': (context) => const OpportunityListPage()
+        '/opportunity_list': (context) => const OpportunityListPage(),
+        '/activity_list': (context) => const ActivityListPage(),
       },
       home: const LoginPage(),
       debugShowCheckedModeBanner: false,
