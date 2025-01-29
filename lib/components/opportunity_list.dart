@@ -65,7 +65,9 @@ class _OpportunityListState extends State<OpportunityList> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => OpportunityPage(),
+                      builder: (context) => OpportunityPage(
+                        opportunityListEntry: opportunity,
+                      ),
                     ),
                   ).then((_) => _refreshData());
                 },
