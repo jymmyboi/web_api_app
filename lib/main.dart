@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sham_app/pages/authentication/login_page.dart';
+import 'package:sham_app/pages/leads/lead_list_page.dart';
+import 'package:sham_app/pages/opportunities/opportunity_list_page.dart';
 import 'package:sham_app/services/database_service.dart';
 
 Future<void> main() async {
@@ -15,8 +17,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: LoginPage(),
+    return MaterialApp(
+      routes: {
+        '/lead_list': (context) => const LeadListPage(),
+        '/opportunity_list': (context) => const OpportunityListPage()
+      },
+      home: const LoginPage(),
       debugShowCheckedModeBanner: false,
     );
   }

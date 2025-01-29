@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sham_app/pages/authentication/login_page.dart';
-import 'package:sham_app/pages/leads/lead_list_page.dart';
-import 'package:sham_app/pages/opportunities/opportunity_list_page.dart';
 
 class ShamDrawer extends StatelessWidget {
   const ShamDrawer({
@@ -24,21 +22,22 @@ class ShamDrawer extends StatelessWidget {
               ListTile(
                 title: const Text("Leads"),
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const LeadListPage()),
-                  );
+                  if (ModalRoute.of(context)?.settings.name != '/lead_list') {
+                    Navigator.pushNamed(context, '/lead_list');
+                  } else {
+                    Navigator.pop(context); // Close the drawer
+                  }
                 },
               ),
               ListTile(
                 title: const Text("Opportunities"),
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const OpportunityListPage()),
-                  );
+                  if (ModalRoute.of(context)?.settings.name !=
+                      '/opportunity_list') {
+                    Navigator.pushNamed(context, '/opportunity_list');
+                  } else {
+                    Navigator.pop(context); // Close the drawer
+                  }
                 },
               ),
               const ListTile(
