@@ -84,7 +84,7 @@ class _OpportunityPageState extends State<OpportunityPage> {
               child: const Icon(Icons.close),
               fabSize: ExpandableFabSize.small),
           children: [
-            FloatingActionButton.small(
+            FloatingActionButton(
               foregroundColor: const Color(0xFFF3F1ED),
               backgroundColor: const Color(0xFF3CCECC),
               tooltip: "Convert back",
@@ -98,7 +98,7 @@ class _OpportunityPageState extends State<OpportunityPage> {
               },
               child: const Icon(Icons.undo),
             ),
-            FloatingActionButton.small(
+            FloatingActionButton(
               foregroundColor: const Color(0xFFF3F1ED),
               backgroundColor: const Color(0xFF3CCECC),
               tooltip: "Lost",
@@ -112,7 +112,7 @@ class _OpportunityPageState extends State<OpportunityPage> {
               },
               child: const Icon(Icons.thumb_down),
             ),
-            FloatingActionButton.small(
+            FloatingActionButton(
               foregroundColor: const Color(0xFFF3F1ED),
               backgroundColor: const Color(0xFF3CCECC),
               tooltip: "Won",

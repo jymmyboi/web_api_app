@@ -84,7 +84,7 @@ class _LeadPageState extends State<LeadPage> {
               child: const Icon(Icons.close),
               fabSize: ExpandableFabSize.small),
           children: [
-            FloatingActionButton.small(
+            FloatingActionButton(
               foregroundColor: const Color(0xFFF3F1ED),
               backgroundColor: const Color(0xFF3CCECC),
               tooltip: "Close",
@@ -97,7 +97,7 @@ class _LeadPageState extends State<LeadPage> {
               },
               child: const Icon(Icons.archive),
             ),
-            FloatingActionButton.small(
+            FloatingActionButton(
               foregroundColor: const Color(0xFFF3F1ED),
               backgroundColor: const Color(0xFF3CCECC),
               tooltip: "Convert",

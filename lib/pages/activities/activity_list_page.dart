@@ -24,28 +24,28 @@ class ActivityListPage extends StatelessWidget {
           overlayStyle: const ExpandableFabOverlayStyle(blur: 10),
           distance: 150,
           children: [
-            FloatingActionButton.small(
+            FloatingActionButton(
               foregroundColor: const Color(0xFFF3F1ED),
               backgroundColor: const Color(0xFF3CCECC),
               tooltip: "Remark",
               onPressed: () {},
               child: const Icon(Icons.business_center),
             ),
-            FloatingActionButton.small(
+            FloatingActionButton(
               foregroundColor: const Color(0xFFF3F1ED),
               backgroundColor: const Color(0xFF3CCECC),
               tooltip: "Email",
               onPressed: () {},
               child: const Icon(Icons.email),
             ),
-            FloatingActionButton.small(
+            FloatingActionButton(
               foregroundColor: const Color(0xFFF3F1ED),
               backgroundColor: const Color(0xFF3CCECC),
               tooltip: "Phone Call",
               onPressed: () {},
               child: const Icon(Icons.phone),
             ),
-            FloatingActionButton.small(
+            FloatingActionButton(
               foregroundColor: const Color(0xFFF3F1ED),
               backgroundColor: const Color(0xFF3CCECC),
               tooltip: "Task",
