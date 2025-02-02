@@ -67,32 +67,63 @@ class _LoginPageState extends State<LoginPage> {
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  // Username Input
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: TextField(
                       controller: usernameController,
                       key: const Key('username'),
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(), hintText: 'Username'),
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(borderSide: const BorderSide(color: Color(0xFF3CCECC)),borderRadius: BorderRadius.circular(20)),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        hintText: 'Username',
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
+                      ),
                     ),
                   ),
+                  // Password Input
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: TextField(
                       controller: passwordController,
                       key: const Key('password'),
                       obscureText: true,
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder(), hintText: 'Password'),
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(borderSide: const BorderSide(color: Color(0xFF3CCECC)),borderRadius: BorderRadius.circular(20),),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        hintText: 'Password',
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
+                      ),
                     ),
                   ),
+                  // Server Dropdown
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: DropdownButton<String>(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: DropdownButtonFormField<String>(
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(borderSide: const BorderSide(color: Color(0xFF3CCECC)),borderRadius: BorderRadius.circular(20)),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
+                      ),
                       hint: const Text("No server connected"),
                       isExpanded: true,
                       value: selectedServer,
@@ -107,7 +138,10 @@ class _LoginPageState extends State<LoginPage> {
                       },
                     ),
                   ),
-                  OutlinedButton(
+                  // Submit Button
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    child: ElevatedButton(
                       onPressed: () async {
                         final String username = usernameController.text.trim();
                         final String password = passwordController.text.trim();
@@ -123,30 +157,55 @@ class _LoginPageState extends State<LoginPage> {
                                 selectedServer!, username, password);
                         if (bearer != null) {
                           Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const LeadListPage()));
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LeadListPage()),
+                          );
                         } else {
                           logger.e("Failed to authenticate");
                         }
                       },
-                      child: const Text("Submit")),
-                  OutlinedButton(
-                      onPressed: () async {
-                        final List<String>? result = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ConnectServerPage()),
-                        );
-                        setState(() {
-                          serverDetails = [];
-                          selectedServer = null;
-                        });
-                        if (result != null) {
-                          updateDropdown(result);
-                        }
-                      },
-                      child: const Text("Connect Server"))
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white, backgroundColor: const Color(0xFF3CCECC),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 14,
+                          horizontal: 24,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                      child: const Text("Submit"),
+                    ),
+                  ),
+                  // Connect Server Button
+                  ElevatedButton(
+                    onPressed: () async {
+                      final List<String>? result = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ConnectServerPage()),
+                      );
+                      setState(() {
+                        serverDetails = [];
+                        selectedServer = null;
+                      });
+                      if (result != null) {
+                        updateDropdown(result);
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white, backgroundColor: Colors.grey,
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 14,
+                        horizontal: 24,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                    ),
+                    child: const Text("Connect Server"),
+                  ),
                 ],
               ),
             ),

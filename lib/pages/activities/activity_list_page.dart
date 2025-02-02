@@ -12,12 +12,12 @@ class ActivityListPage extends StatelessWidget {
       floatingActionButtonLocation: ExpandableFab.location,
       floatingActionButton: ExpandableFab(
           openButtonBuilder: DefaultFloatingActionButtonBuilder(
-            foregroundColor: const Color(0xFFF3F1ED),
+            foregroundColor: Colors.white,
             backgroundColor: const Color(0xFF3CCECC),
             child: const Icon(Icons.add),
           ),
           closeButtonBuilder: DefaultFloatingActionButtonBuilder(
-              foregroundColor: const Color(0xFFF3F1ED),
+              foregroundColor: Colors.white,
               backgroundColor: const Color(0xFF3CCECC),
               child: const Icon(Icons.close),
               fabSize: ExpandableFabSize.small),
@@ -25,28 +25,28 @@ class ActivityListPage extends StatelessWidget {
           distance: 150,
           children: [
             FloatingActionButton(
-              foregroundColor: const Color(0xFFF3F1ED),
+              foregroundColor: Colors.white,
               backgroundColor: const Color(0xFF3CCECC),
               tooltip: "Remark",
               onPressed: () {},
               child: const Icon(Icons.business_center),
             ),
             FloatingActionButton(
-              foregroundColor: const Color(0xFFF3F1ED),
+              foregroundColor: Colors.white,
               backgroundColor: const Color(0xFF3CCECC),
               tooltip: "Email",
               onPressed: () {},
               child: const Icon(Icons.email),
             ),
             FloatingActionButton(
-              foregroundColor: const Color(0xFFF3F1ED),
+              foregroundColor: Colors.white,
               backgroundColor: const Color(0xFF3CCECC),
               tooltip: "Phone Call",
               onPressed: () {},
               child: const Icon(Icons.phone),
             ),
             FloatingActionButton(
-              foregroundColor: const Color(0xFFF3F1ED),
+              foregroundColor: Colors.white,
               backgroundColor: const Color(0xFF3CCECC),
               tooltip: "Task",
               onPressed: () {},
@@ -57,12 +57,12 @@ class ActivityListPage extends StatelessWidget {
         backgroundColor: const Color(0xFF3CCECC),
         title: const Text(
           "Activities",
-          style: TextStyle(color: Color(0xFFF3F1ED)),
+          style: TextStyle(color: Colors.white),
         ),
-        iconTheme: const IconThemeData(color: Color(0xFFF3F1ED)),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       drawer: const ShamDrawer(),
-      backgroundColor: const Color(0xFFF3F1ED),
+      backgroundColor: Colors.white,
       body: const ActivityList(),
     );
   }

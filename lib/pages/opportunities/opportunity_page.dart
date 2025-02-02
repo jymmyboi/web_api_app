@@ -74,18 +74,18 @@ class _OpportunityPageState extends State<OpportunityPage> {
         dataBuilder: (context, opportunity) => ExpandableFab(
           overlayStyle: const ExpandableFabOverlayStyle(blur: 10),
           openButtonBuilder: DefaultFloatingActionButtonBuilder(
-            foregroundColor: const Color(0xFFF3F1ED),
+            foregroundColor: Colors.white,
             backgroundColor: const Color(0xFF3CCECC),
             child: const Icon(Icons.menu),
           ),
           closeButtonBuilder: DefaultFloatingActionButtonBuilder(
-              foregroundColor: const Color(0xFFF3F1ED),
+              foregroundColor: Colors.white,
               backgroundColor: const Color(0xFF3CCECC),
               child: const Icon(Icons.close),
               fabSize: ExpandableFabSize.small),
           children: [
             FloatingActionButton(
-              foregroundColor: const Color(0xFFF3F1ED),
+              foregroundColor: Colors.white,
               backgroundColor: const Color(0xFF3CCECC),
               tooltip: "Convert back",
               onPressed: () {
@@ -99,7 +99,7 @@ class _OpportunityPageState extends State<OpportunityPage> {
               child: const Icon(Icons.undo),
             ),
             FloatingActionButton(
-              foregroundColor: const Color(0xFFF3F1ED),
+              foregroundColor: Colors.white,
               backgroundColor: const Color(0xFF3CCECC),
               tooltip: "Lost",
               onPressed: () {
@@ -113,7 +113,7 @@ class _OpportunityPageState extends State<OpportunityPage> {
               child: const Icon(Icons.thumb_down),
             ),
             FloatingActionButton(
-              foregroundColor: const Color(0xFFF3F1ED),
+              foregroundColor: Colors.white,
               backgroundColor: const Color(0xFF3CCECC),
               tooltip: "Won",
               onPressed: () {
@@ -136,7 +136,7 @@ class _OpportunityPageState extends State<OpportunityPage> {
       ),
       appBar: AppBar(
         backgroundColor: const Color(0xFF3CCECC),
-        foregroundColor: const Color(0xFFF3F1ED),
+        foregroundColor: Colors.white,
         title: const Text("Opportunity"),
         actions: [
           IconButton(
@@ -186,7 +186,7 @@ class _OpportunityPageState extends State<OpportunityPage> {
           ),
         ],
       ),
-      backgroundColor: const Color(0xFFF3F1ED),
+      backgroundColor: Colors.white,
     );
   }
 }

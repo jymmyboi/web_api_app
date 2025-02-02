@@ -74,18 +74,18 @@ class _LeadPageState extends State<LeadPage> {
         dataBuilder: (context, lead) => ExpandableFab(
           overlayStyle: const ExpandableFabOverlayStyle(blur: 10),
           openButtonBuilder: DefaultFloatingActionButtonBuilder(
-            foregroundColor: const Color(0xFFF3F1ED),
+            foregroundColor: Colors.white,
             backgroundColor: const Color(0xFF3CCECC),
             child: const Icon(Icons.menu),
           ),
           closeButtonBuilder: DefaultFloatingActionButtonBuilder(
-              foregroundColor: const Color(0xFFF3F1ED),
+              foregroundColor: Colors.white,
               backgroundColor: const Color(0xFF3CCECC),
               child: const Icon(Icons.close),
               fabSize: ExpandableFabSize.small),
           children: [
             FloatingActionButton(
-              foregroundColor: const Color(0xFFF3F1ED),
+              foregroundColor: Colors.white,
               backgroundColor: const Color(0xFF3CCECC),
               tooltip: "Close",
               onPressed: () {
@@ -98,7 +98,7 @@ class _LeadPageState extends State<LeadPage> {
               child: const Icon(Icons.archive),
             ),
             FloatingActionButton(
-              foregroundColor: const Color(0xFFF3F1ED),
+              foregroundColor: Colors.white,
               backgroundColor: const Color(0xFF3CCECC),
               tooltip: "Convert",
               onPressed: () {
@@ -121,7 +121,7 @@ class _LeadPageState extends State<LeadPage> {
       ),
       appBar: AppBar(
         backgroundColor: const Color(0xFF3CCECC),
-        foregroundColor: const Color(0xFFF3F1ED),
+        foregroundColor: Colors.white,
         title: const Text("Lead"),
         actions: [
           IconButton(
@@ -172,7 +172,7 @@ class _LeadPageState extends State<LeadPage> {
           ),
         ],
       ),
-      backgroundColor: const Color(0xFFF3F1ED),
+      backgroundColor: Colors.white,
     );
   }
 }

@@ -12,12 +12,12 @@ class LeadListPage extends StatelessWidget {
         backgroundColor: const Color(0xFF3CCECC),
         title: const Text(
           "Leads",
-          style: TextStyle(color: Color(0xFFF3F1ED)),
+          style: TextStyle(color: Colors.white),
         ),
-        iconTheme: const IconThemeData(color: Color(0xFFF3F1ED)),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       drawer: const ShamDrawer(),
-      backgroundColor: const Color(0xFFF3F1ED),
+      backgroundColor: Colors.white,
       body: const LeadList(),
     );
   }
