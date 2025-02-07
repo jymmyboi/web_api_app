@@ -3,12 +3,9 @@ import 'package:sham_app/pages/activities/activity_list_page.dart';
 import 'package:sham_app/pages/authentication/login_page.dart';
 import 'package:sham_app/pages/leads/lead_list_page.dart';
 import 'package:sham_app/pages/opportunities/opportunity_list_page.dart';
-import 'package:sham_app/services/database_service.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  DatabaseService databaseService = DatabaseService();
-  await databaseService.loadBaseUrlAndAccessKey();
   runApp(const MyApp());
 }
 

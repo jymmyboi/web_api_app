@@ -6,19 +6,17 @@ import 'package:logger/logger.dart';
 import 'package:sham_app/components/future_widget.dart';
 import 'package:sham_app/models/lead.dart';
 import 'package:sham_app/pages/leads/lead_edit_page.dart';
-import 'package:sham_app/services/database_service.dart';
+import 'package:sham_app/services/lead_service.dart';
 
 import '../../models/lead_list_entry.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LeadPage extends StatefulWidget {
-  const LeadPage({
-    super.key,
-    required LeadListEntry leadListEntry,
-  }) : _leadListEntry = leadListEntry;
+  const LeadPage(
+      {super.key, required this.leadListEntry, required this.leadService});
 
-  final LeadListEntry _leadListEntry;
-
+  final LeadListEntry leadListEntry;
+  final LeadService leadService;
   @override
   State<LeadPage> createState() => _LeadPageState();
 }
@@ -26,7 +24,6 @@ class LeadPage extends StatefulWidget {
 class _LeadPageState extends State<LeadPage> {
   Logger logger = Logger();
   late Future<Lead> _lead;
-  final DatabaseService _databaseService = DatabaseService();
 
   @override
   void initState() {
@@ -41,7 +38,7 @@ class _LeadPageState extends State<LeadPage> {
   }
 
   Future<Lead> _fetchLead() async {
-    final response = await _databaseService.getLead(widget._leadListEntry.id);
+    final response = await widget.leadService.getLead(widget.leadListEntry.id);
     if (response == null || response.isEmpty) {
       throw Exception("Failed to fetch lead");
     }
@@ -89,7 +86,7 @@ class _LeadPageState extends State<LeadPage> {
               backgroundColor: const Color(0xFF3CCECC),
               tooltip: "Close",
               onPressed: () {
-                _databaseService.closeLead(lead.id);
+                widget.leadService.closeLead(lead.id);
                 logger.i("Close action triggered");
                 ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text("Closed ${lead.description}")));
@@ -102,7 +99,7 @@ class _LeadPageState extends State<LeadPage> {
               backgroundColor: const Color(0xFF3CCECC),
               tooltip: "Convert",
               onPressed: () {
-                _databaseService.convertLead(lead.id);
+                widget.leadService.convertLead(lead.id);
                 logger.i("Convert action triggered for Lead ID: ${lead.id}");
                 ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text("Converted ${lead.description}")));
@@ -132,6 +129,7 @@ class _LeadPageState extends State<LeadPage> {
                   MaterialPageRoute(
                     builder: (context) => LeadEditPage(
                       leadFuture: _lead,
+                      leadService: widget.leadService,
                     ),
                   )).then((_) => _refreshData());
             },

@@ -4,7 +4,7 @@ import 'dart:convert';
 
 import 'package:sham_app/models/lead_list_entry.dart';
 import 'package:sham_app/pages/leads/lead_page.dart';
-import 'package:sham_app/services/database_service.dart';
+import 'package:sham_app/services/lead_service.dart';
 
 class LeadList extends StatefulWidget {
   const LeadList({super.key});
@@ -15,7 +15,7 @@ class LeadList extends StatefulWidget {
 
 class _LeadListState extends State<LeadList> {
   late Future<List<LeadListEntry>> _leadsFuture;
-  final DatabaseService _databaseService = DatabaseService();
+  final LeadService leadService = LeadService();
 
   @override
   void initState() {
@@ -30,7 +30,7 @@ class _LeadListState extends State<LeadList> {
   }
 
   Future<List<LeadListEntry>> _fetchLeads() async {
-    final response = await _databaseService.getMyLeads();
+    final response = await leadService.getMyLeads();
 
     if (response == null) {
       throw Exception("Failed to fetch leads");
@@ -62,7 +62,10 @@ class _LeadListState extends State<LeadList> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => LeadPage(leadListEntry: lead),
+                      builder: (context) => LeadPage(
+                        leadListEntry: lead,
+                        leadService: leadService,
+                      ),
                     ),
                   ).then((_) => _refreshData());
                 },
@@ -71,12 +74,6 @@ class _LeadListState extends State<LeadList> {
           ),
         );
       },
-      loadingBuilder: (context) => const Center(
-        child: CircularProgressIndicator(),
-      ),
-      errorBuilder: (context) => const Center(
-        child: Text('Error loading leads.'),
-      ),
     );
   }
 }

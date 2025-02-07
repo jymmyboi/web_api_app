@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:sham_app/components/future_widget.dart';
 import 'package:sham_app/models/opportunity.dart';
-import 'package:sham_app/services/database_service.dart';
+import 'package:sham_app/services/opportunity_service.dart';
 
 class OpportunityEditPage extends StatefulWidget {
-  const OpportunityEditPage({super.key, required this.opportunityFuture});
+  const OpportunityEditPage(
+      {super.key,
+      required this.opportunityFuture,
+      required this.opportunityService});
 
   final Future<Opportunity> opportunityFuture;
+  final OpportunityService opportunityService;
 
   @override
   State<OpportunityEditPage> createState() => _OpportunityEditPageState();
 }
 
 class _OpportunityEditPageState extends State<OpportunityEditPage> {
-  final DatabaseService _databaseService = DatabaseService();
-
   late TextEditingController _descriptionController;
   late TextEditingController _nameController;
   late TextEditingController _detailsController;
@@ -94,7 +96,7 @@ class _OpportunityEditPageState extends State<OpportunityEditPage> {
                     child: const Icon(Icons.save),
                     onPressed: () async {
                       // Use the controller values when saving the data.
-                      if (await _databaseService.editOpportunity(
+                      if (await widget.opportunityService.editOpportunity(
                             opportunity.id,
                             opportunity.code,
                             _descriptionController.text,

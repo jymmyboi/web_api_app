@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:sham_app/pages/authentication/connect_server_page.dart';
 import 'package:sham_app/pages/leads/lead_list_page.dart';
-import 'package:sham_app/services/database_service.dart';
+import 'package:sham_app/services/authentication_service.dart';
+import 'package:sham_app/services/base_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -14,7 +15,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   Logger logger = Logger();
 
-  final databaseService = DatabaseService();
+  final authenticationService = AuthenticationService();
+  final baseService = BaseService();
 
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -30,12 +32,12 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _loadSavedServerDetails() async {
-    await databaseService.loadBaseUrlAndAccessKey();
-    if (databaseService.baseUrl != null && databaseService.accessKey != null) {
-      logger.i("loaded base url: ${databaseService.baseUrl}");
+    await baseService.loadBaseUrlAndAccessKey();
+    if (baseService.baseUrl != null && baseService.accessKey != null) {
+      logger.i("loaded base url: ${baseService.baseUrl}");
 
-      List<String>? databases = await databaseService.getDatabases(
-          databaseService.baseUrl!, databaseService.accessKey!);
+      List<String>? databases = await authenticationService.getDatabases(
+          baseService.baseUrl!, baseService.accessKey!);
 
       if (databases != null && databases.isNotEmpty) {
         setState(() {
@@ -78,7 +80,10 @@ class _LoginPageState extends State<LoginPage> {
                       controller: usernameController,
                       key: const Key('username'),
                       decoration: InputDecoration(
-                        focusedBorder: OutlineInputBorder(borderSide: const BorderSide(color: Color(0xFF3CCECC)),borderRadius: BorderRadius.circular(20)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Color(0xFF3CCECC)),
+                            borderRadius: BorderRadius.circular(20)),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -98,7 +103,11 @@ class _LoginPageState extends State<LoginPage> {
                       key: const Key('password'),
                       obscureText: true,
                       decoration: InputDecoration(
-                        focusedBorder: OutlineInputBorder(borderSide: const BorderSide(color: Color(0xFF3CCECC)),borderRadius: BorderRadius.circular(20),),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              const BorderSide(color: Color(0xFF3CCECC)),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -115,7 +124,10 @@ class _LoginPageState extends State<LoginPage> {
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: DropdownButtonFormField<String>(
                       decoration: InputDecoration(
-                        focusedBorder: OutlineInputBorder(borderSide: const BorderSide(color: Color(0xFF3CCECC)),borderRadius: BorderRadius.circular(20)),
+                        focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                const BorderSide(color: Color(0xFF3CCECC)),
+                            borderRadius: BorderRadius.circular(20)),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -153,7 +165,7 @@ class _LoginPageState extends State<LoginPage> {
                           return;
                         }
                         final String? bearer =
-                            await databaseService.getBearerToken(
+                            await authenticationService.getBearerToken(
                                 selectedServer!, username, password);
                         if (bearer != null) {
                           Navigator.pushReplacement(
@@ -166,7 +178,8 @@ class _LoginPageState extends State<LoginPage> {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white, backgroundColor: const Color(0xFF3CCECC),
+                        foregroundColor: Colors.white,
+                        backgroundColor: const Color(0xFF3CCECC),
                         padding: const EdgeInsets.symmetric(
                           vertical: 14,
                           horizontal: 24,
@@ -184,7 +197,9 @@ class _LoginPageState extends State<LoginPage> {
                       final List<String>? result = await Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ConnectServerPage()),
+                            builder: (context) => ConnectServerPage(
+                                  authenticationService: authenticationService,
+                                )),
                       );
                       setState(() {
                         serverDetails = [];
@@ -195,7 +210,8 @@ class _LoginPageState extends State<LoginPage> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white, backgroundColor: Colors.grey,
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.grey,
                       padding: const EdgeInsets.symmetric(
                         vertical: 14,
                         horizontal: 24,

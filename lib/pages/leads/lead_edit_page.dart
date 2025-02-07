@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:sham_app/components/future_widget.dart';
 import 'package:sham_app/models/lead.dart';
-import 'package:sham_app/services/database_service.dart';
+import 'package:sham_app/services/lead_service.dart';
 
 class LeadEditPage extends StatefulWidget {
-  const LeadEditPage({super.key, required this.leadFuture});
+  const LeadEditPage(
+      {super.key, required this.leadFuture, required this.leadService});
+  final LeadService leadService;
 
   final Future<Lead> leadFuture;
 
@@ -13,8 +15,6 @@ class LeadEditPage extends StatefulWidget {
 }
 
 class _LeadEditPageState extends State<LeadEditPage> {
-  final DatabaseService _databaseService = DatabaseService();
-
   late TextEditingController _descriptionController;
   late TextEditingController _nameController;
   late TextEditingController _detailsController;
@@ -93,7 +93,7 @@ class _LeadEditPageState extends State<LeadEditPage> {
                     child: const Icon(Icons.save),
                     onPressed: () async {
                       // Use the controller values when saving the data.
-                      if (await _databaseService.editLead(
+                      if (await widget.leadService.editLead(
                             lead.id,
                             lead.code,
                             _descriptionController.text,

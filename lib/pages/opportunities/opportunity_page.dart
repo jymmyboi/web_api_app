@@ -7,15 +7,17 @@ import 'package:sham_app/components/future_widget.dart';
 import 'package:sham_app/models/opportunity.dart';
 import 'package:sham_app/models/opportunity_list_entry.dart';
 import 'package:sham_app/pages/opportunities/opportunity_edit_page.dart';
-import 'package:sham_app/services/database_service.dart';
+import 'package:sham_app/services/opportunity_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OpportunityPage extends StatefulWidget {
   const OpportunityPage(
-      {super.key, required OpportunityListEntry opportunityListEntry})
-      : _opportunityListEntry = opportunityListEntry;
+      {super.key,
+      required this.opportunityListEntry,
+      required this.opportunityService});
 
-  final OpportunityListEntry _opportunityListEntry;
+  final OpportunityListEntry opportunityListEntry;
+  final OpportunityService opportunityService;
 
   @override
   State<OpportunityPage> createState() => _OpportunityPageState();
@@ -24,8 +26,6 @@ class OpportunityPage extends StatefulWidget {
 class _OpportunityPageState extends State<OpportunityPage> {
   Logger logger = Logger();
   late Future<Opportunity> _opportunity;
-
-  final DatabaseService _databaseService = DatabaseService();
 
   @override
   void initState() {
@@ -40,8 +40,8 @@ class _OpportunityPageState extends State<OpportunityPage> {
   }
 
   Future<Opportunity> _fetchOpportunity() async {
-    final response =
-        await _databaseService.getOpportunity(widget._opportunityListEntry.id);
+    final response = await widget.opportunityService
+        .getOpportunity(widget.opportunityListEntry.id);
     if (response == null || response.isEmpty) {
       throw Exception("Failed to fetch opportunity");
     }
@@ -89,7 +89,7 @@ class _OpportunityPageState extends State<OpportunityPage> {
               backgroundColor: const Color(0xFF3CCECC),
               tooltip: "Convert back",
               onPressed: () {
-                _databaseService.convertOpportunity(opportunity.id);
+                widget.opportunityService.convertOpportunity(opportunity.id);
                 logger.i(
                     "Convert action triggered for opportunity ID: ${opportunity.id}");
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -103,7 +103,7 @@ class _OpportunityPageState extends State<OpportunityPage> {
               backgroundColor: const Color(0xFF3CCECC),
               tooltip: "Lost",
               onPressed: () {
-                _databaseService.lostOpportunity(opportunity.id);
+                widget.opportunityService.lostOpportunity(opportunity.id);
                 logger.i(
                     "Convert action triggered for opportunity ID: ${opportunity.id}");
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -117,7 +117,7 @@ class _OpportunityPageState extends State<OpportunityPage> {
               backgroundColor: const Color(0xFF3CCECC),
               tooltip: "Won",
               onPressed: () {
-                _databaseService.wonOpportunity(opportunity.id);
+                widget.opportunityService.wonOpportunity(opportunity.id);
                 logger.i("Win action triggered");
                 ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(content: Text("Won ${opportunity.description}")));
@@ -143,11 +143,12 @@ class _OpportunityPageState extends State<OpportunityPage> {
             icon: const Icon(Icons.edit),
             onPressed: () {
               Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => OpportunityEditPage(
-                              opportunityFuture: _opportunity)))
-                  .then((_) => _refreshData());
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => OpportunityEditPage(
+                            opportunityFuture: _opportunity,
+                            opportunityService: widget.opportunityService,
+                          ))).then((_) => _refreshData());
             },
           )
         ],

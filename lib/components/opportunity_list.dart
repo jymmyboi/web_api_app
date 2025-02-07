@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:sham_app/components/future_widget.dart';
 import 'package:sham_app/models/opportunity_list_entry.dart';
 import 'package:sham_app/pages/opportunities/opportunity_page.dart';
-import 'package:sham_app/services/database_service.dart';
+import 'package:sham_app/services/opportunity_service.dart';
 
 class OpportunityList extends StatefulWidget {
   const OpportunityList({super.key});
@@ -15,7 +15,7 @@ class OpportunityList extends StatefulWidget {
 
 class _OpportunityListState extends State<OpportunityList> {
   late Future<List<OpportunityListEntry>> _opportunitiesFuture;
-  final DatabaseService _databaseService = DatabaseService();
+  final OpportunityService opportunityService = OpportunityService();
 
   @override
   void initState() {
@@ -30,7 +30,7 @@ class _OpportunityListState extends State<OpportunityList> {
   }
 
   Future<List<OpportunityListEntry>> _fetchOpportunities() async {
-    final response = await _databaseService.getMyOpportunities();
+    final response = await opportunityService.getMyOpportunities();
 
     if (response == null) {
       throw Exception("Failed to fetch opportunities");
@@ -67,6 +67,7 @@ class _OpportunityListState extends State<OpportunityList> {
                     MaterialPageRoute(
                       builder: (context) => OpportunityPage(
                         opportunityListEntry: opportunity,
+                        opportunityService: opportunityService,
                       ),
                     ),
                   ).then((_) => _refreshData());

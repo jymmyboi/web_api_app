@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:sham_app/components/future_widget.dart';
 import 'package:sham_app/models/activity_list_entry.dart';
-import 'package:sham_app/services/database_service.dart';
+import 'package:sham_app/services/activity_service.dart';
 
 class ActivityList extends StatefulWidget {
   const ActivityList({super.key});
@@ -14,7 +14,7 @@ class ActivityList extends StatefulWidget {
 
 class _ActivityListState extends State<ActivityList> {
   late Future<List<ActivityListEntry>> _activitiesFuture;
-  final DatabaseService _databaseService = DatabaseService();
+  final ActivityService activityService = ActivityService();
 
   @override
   void initState() {
@@ -44,7 +44,7 @@ class _ActivityListState extends State<ActivityList> {
   }
 
   Future<List<ActivityListEntry>> _fetchActivities() async {
-    final response = await _databaseService.getMyActivities();
+    final response = await activityService.getMyActivities();
 
     if (response == null) {
       throw Exception("Failed to fetch activities");
