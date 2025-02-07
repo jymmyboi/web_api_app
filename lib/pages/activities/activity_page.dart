@@ -28,6 +28,7 @@ class _ActivityPageState extends State<ActivityPage> {
   void initState() {
     super.initState();
     _activity = _fetchActivity();
+    logger.d('fetched');
   }
 
   Future<void> _refreshData() async {
@@ -40,10 +41,11 @@ class _ActivityPageState extends State<ActivityPage> {
     final response = await widget.activityService.getActivity(
         widget.activityListEntry.id, widget.activityListEntry.activityType);
     if (response == null || response.isEmpty) {
+      logger.e("Failed to fetch activity");
       throw Exception("Failed to fetch activity");
     }
     final Map<String, dynamic> jsonData = json.decode(response);
-    logger.d(Activity.fromJson(jsonData));
+    logger.e(Activity.fromJson(jsonData));
     return Activity.fromJson(jsonData);
   }
 
