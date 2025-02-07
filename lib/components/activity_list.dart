@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:sham_app/components/future_widget.dart';
 import 'package:sham_app/models/activity_list_entry.dart';
+import 'package:sham_app/pages/activities/activity_page.dart';
 import 'package:sham_app/services/activity_service.dart';
 
 class ActivityList extends StatefulWidget {
@@ -15,7 +17,7 @@ class ActivityList extends StatefulWidget {
 class _ActivityListState extends State<ActivityList> {
   late Future<List<ActivityListEntry>> _activitiesFuture;
   final ActivityService activityService = ActivityService();
-
+  final Logger logger = Logger();
   @override
   void initState() {
     super.initState();
@@ -71,6 +73,18 @@ class _ActivityListState extends State<ActivityList> {
               itemBuilder: (context, index) {
                 final activity = activities[index];
                 return ListTile(
+                  onTap: () {
+                    logger.d(activity.activityNumber);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ActivityPage(
+                          activityListEntry: activity,
+                          activityService: activityService,
+                        ),
+                      ),
+                    ).then((_) => _refreshData());
+                  },
                   title: Text(activity.activityNumber),
                   subtitle: Text(activity.subject),
                   leading: Icon(
