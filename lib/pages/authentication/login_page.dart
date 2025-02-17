@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> _loadSavedServerDetails() async {
     await baseService.loadBaseUrlAndAccessKey();
     if (baseService.baseUrl != null && baseService.accessKey != null) {
-      logger.i("loaded base url: ${baseService.baseUrl}");
+      // logger.i("loaded base url: ${baseService.baseUrl}");
 
       List<String>? databases = await authenticationService.getDatabases(
           baseService.baseUrl!, baseService.accessKey!);

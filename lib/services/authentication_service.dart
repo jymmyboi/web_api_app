@@ -24,7 +24,7 @@ class AuthenticationService {
       List<String> databases =
           decodedJson.map((item) => item['Database'] as String).toList();
       baseService.setBaseUrl(newBaseUrl, newAccessKey);
-      logger.i((baseService.baseUrl, baseService.accessKey));
+      // logger.i((baseService.baseUrl, baseService.accessKey));
       return databases;
     } else {
       Map<String, String> responseReason = {

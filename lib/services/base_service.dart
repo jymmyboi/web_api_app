@@ -29,7 +29,7 @@ class BaseService {
     if (newAccessKey != null) {
       await prefs.setString('accessKey', newAccessKey);
     }
-    logger.i("Saved | $newBaseUrl + $newAccessKey");
+    // logger.i("Saved | $newBaseUrl + $newAccessKey");
   }
 
   Future<void> loadBaseUrlAndAccessKey() async {
@@ -44,7 +44,7 @@ class BaseService {
       accessKey = newAccessKey;
     }
     await saveBaseUrlAndAccessKey(newBaseUrl, newAccessKey);
-    logger.i("SET $baseUrl");
+    // logger.i("SET $baseUrl");
   }
 
   void setBearerToken(String bearerJson) {
