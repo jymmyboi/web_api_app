@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:sham_app/components/activity_list.dart';
 import 'package:sham_app/components/sham_drawer.dart';
+import 'package:sham_app/pages/activities/new_activity_page.dart';
 
 class ActivityListPage extends StatelessWidget {
   const ActivityListPage({super.key});
@@ -28,28 +29,64 @@ class ActivityListPage extends StatelessWidget {
               foregroundColor: Colors.white,
               backgroundColor: const Color(0xFF3CCECC),
               tooltip: "Remark",
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const NewActivityPage(
+                      activityType: 1,
+                    ),
+                  ),
+                );
+              },
               child: const Icon(Icons.business_center),
             ),
             FloatingActionButton(
               foregroundColor: Colors.white,
               backgroundColor: const Color(0xFF3CCECC),
               tooltip: "Email",
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const NewActivityPage(
+                      activityType: 2,
+                    ),
+                  ),
+                );
+              },
               child: const Icon(Icons.email),
             ),
             FloatingActionButton(
               foregroundColor: Colors.white,
               backgroundColor: const Color(0xFF3CCECC),
               tooltip: "Phone Call",
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const NewActivityPage(
+                      activityType: 3,
+                    ),
+                  ),
+                );
+              },
               child: const Icon(Icons.phone),
             ),
             FloatingActionButton(
               foregroundColor: Colors.white,
               backgroundColor: const Color(0xFF3CCECC),
               tooltip: "Task",
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const NewActivityPage(
+                      activityType: 4,
+                    ),
+                  ),
+                );
+              },
               child: const Icon(Icons.task_outlined),
             ),
           ]),
