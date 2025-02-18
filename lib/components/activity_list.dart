@@ -33,7 +33,7 @@ class _ActivityListState extends State<ActivityList> {
   IconData getActivityIcon(int activityType) {
     switch (activityType) {
       case 1: //remark
-        return Icons.business_center;
+        return Icons.event_note;
       case 2: //email
         return Icons.email;
       case 3: //phonecall

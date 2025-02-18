@@ -45,7 +45,6 @@ class _ActivityPageState extends State<ActivityPage> {
       throw Exception("Failed to fetch activity");
     }
     final Map<String, dynamic> jsonData = json.decode(response);
-    logger.e(Activity.fromJson(jsonData));
     return Activity.fromJson(jsonData);
   }
 

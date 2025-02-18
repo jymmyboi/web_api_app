@@ -39,7 +39,7 @@ class ActivityListPage extends StatelessWidget {
                   ),
                 );
               },
-              child: const Icon(Icons.business_center),
+              child: const Icon(Icons.event_note),
             ),
             FloatingActionButton(
               foregroundColor: Colors.white,
