@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/lead_list': (context) => const LeadListPage(),
         '/opportunity_list': (context) => const OpportunityListPage(),
-        '/activity_list': (context) => const ActivityListPage(),
+        '/activity_list': (context) => ActivityListPage(),
       },
       home: const LoginPage(),
       debugShowCheckedModeBanner: false,

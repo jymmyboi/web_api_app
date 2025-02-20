@@ -54,4 +54,44 @@ class ActivityService {
       return null;
     }
   }
+
+  Future<String?> getStatuses() async {
+    http.Request request = http.Request(
+        'GET',
+        Uri.parse(
+            '${baseService.baseUrl}/CM/StatusLookupInfoList?ActivitiesActive=true'));
+    request.headers
+        .addAll({'Authorization': 'Bearer ${baseService.accessToken}'});
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      String responseString = await response.stream.bytesToString();
+      logger.d(responseString);
+      return responseString;
+    } else {
+      logger.e(
+          "Failure to get statuses ${response.statusCode} | ${response.reasonPhrase}");
+      return null;
+    }
+  }
+
+  Future<String?> getCustomers() async {
+    http.Request request = http.Request('GET',
+        Uri.parse('${baseService.baseUrl}/DR/CustomerInfoList?Active=false'));
+    request.headers
+        .addAll({'Authorization': 'Bearer ${baseService.accessToken}'});
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      String responseString = await response.stream.bytesToString();
+      logger.d(responseString);
+      return responseString;
+    } else {
+      logger.e(
+          "Failure to get customers ${response.statusCode} | ${response.reasonPhrase}");
+      return null;
+    }
+  }
 }

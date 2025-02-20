@@ -8,15 +8,15 @@ import 'package:sham_app/pages/activities/activity_page.dart';
 import 'package:sham_app/services/activity_service.dart';
 
 class ActivityList extends StatefulWidget {
-  const ActivityList({super.key});
-
+  const ActivityList({super.key, required this.activityService});
+  final ActivityService activityService;
   @override
   State<ActivityList> createState() => _ActivityListState();
 }
 
 class _ActivityListState extends State<ActivityList> {
   late Future<List<ActivityListEntry>> _activitiesFuture;
-  final ActivityService activityService = ActivityService();
+
   final Logger logger = Logger();
   @override
   void initState() {
@@ -46,7 +46,7 @@ class _ActivityListState extends State<ActivityList> {
   }
 
   Future<List<ActivityListEntry>> _fetchActivities() async {
-    final response = await activityService.getMyActivities();
+    final response = await widget.activityService.getMyActivities();
 
     if (response == null) {
       throw Exception("Failed to fetch activities");
@@ -80,7 +80,7 @@ class _ActivityListState extends State<ActivityList> {
                       MaterialPageRoute(
                         builder: (context) => ActivityPage(
                           activityListEntry: activity,
-                          activityService: activityService,
+                          activityService: widget.activityService,
                         ),
                       ),
                     ).then((_) => _refreshData());

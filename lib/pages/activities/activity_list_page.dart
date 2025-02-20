@@ -3,10 +3,11 @@ import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:sham_app/components/activity_list.dart';
 import 'package:sham_app/components/sham_drawer.dart';
 import 'package:sham_app/pages/activities/new_activity_page.dart';
+import 'package:sham_app/services/activity_service.dart';
 
 class ActivityListPage extends StatelessWidget {
-  const ActivityListPage({super.key});
-
+  ActivityListPage({super.key});
+  final ActivityService activityService = ActivityService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,8 +34,9 @@ class ActivityListPage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const NewActivityPage(
+                    builder: (context) => NewActivityPage(
                       activityType: 1,
+                      activityService: activityService,
                     ),
                   ),
                 );
@@ -49,8 +51,9 @@ class ActivityListPage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const NewActivityPage(
+                    builder: (context) => NewActivityPage(
                       activityType: 2,
+                      activityService: activityService,
                     ),
                   ),
                 );
@@ -65,8 +68,9 @@ class ActivityListPage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const NewActivityPage(
+                    builder: (context) => NewActivityPage(
                       activityType: 3,
+                      activityService: activityService,
                     ),
                   ),
                 );
@@ -81,8 +85,9 @@ class ActivityListPage extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const NewActivityPage(
+                    builder: (context) => NewActivityPage(
                       activityType: 4,
+                      activityService: activityService,
                     ),
                   ),
                 );
@@ -100,7 +105,9 @@ class ActivityListPage extends StatelessWidget {
       ),
       drawer: const ShamDrawer(),
       backgroundColor: Colors.white,
-      body: const ActivityList(),
+      body: ActivityList(
+        activityService: activityService,
+      ),
     );
   }
 }
