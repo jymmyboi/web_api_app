@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+//TODO: Handle Permission checking.
 class BaseService {
   static final BaseService _instance = BaseService._internal();
 
